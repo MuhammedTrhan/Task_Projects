@@ -34,7 +34,7 @@ grow_horizontal = 2
 text = "press 'A'"
 
 [node name="Area2D2" type="Area2D" parent="." unique_id=1205224898]
-modulate = Color(1, 0, 0, 1)
+modulate = Color(1, 0, 0, 0.8392157)
 position = Vector2(962, 534)
 script = ExtResource("2_sasra")
 metadata/_edit_group_ = true
