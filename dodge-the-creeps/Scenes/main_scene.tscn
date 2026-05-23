@@ -46,6 +46,8 @@ scale = Vector2(0.75, 0.75)
 [node name="SpawnTimer" type="Timer" parent="." unique_id=719632389]
 
 [node name="SpawnPath" type="Path2D" parent="." unique_id=1410990396]
+position = Vector2(30.810387, 7.991379)
+scale = Vector2(0.9574622, 0.9889163)
 curve = SubResource("Curve2D_52fb6")
 
 [node name="SpawnLocation" type="PathFollow2D" parent="SpawnPath" unique_id=758639265]

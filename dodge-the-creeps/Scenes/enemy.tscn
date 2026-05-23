@@ -55,7 +55,7 @@ height = 128.02435
 [node name="Enemy" type="CharacterBody2D" unique_id=812205986]
 scale = Vector2(0.75, 0.75)
 collision_layer = 2
-collision_mask = 2
+collision_mask = 0
 script = ExtResource("1_1dp5w")
 
 [node name="MoveShape" type="CollisionShape2D" parent="." unique_id=443603372]
