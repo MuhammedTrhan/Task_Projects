@@ -1,0 +1,7 @@
+# Ignore Godot cache and import files anywhere in the repo
+**/.godot/
+**/.import/
+
+# Ignore export binaries
+**/build/
+**/exports/

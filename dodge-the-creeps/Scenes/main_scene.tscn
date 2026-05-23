@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://dqcufixemgkjj"]
+
+[ext_resource type="Script" uid="uid://bl4cxotcmr7nc" path="res://Scripts/main_scene.gd" id="1_6l7je"]
+[ext_resource type="PackedScene" uid="uid://caub8ij26tki7" path="res://Scenes/player.tscn" id="1_52fb6"]
+
+[sub_resource type="Curve2D" id="Curve2D_52fb6"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1261, 721, 0, 0, 0, 0, -122, 720, 0, 0, 0, 0, -120, -91, 0, 0, 0, 0, 1265, -86, 0, 0, 0, 0, 1261, 721)
+}
+point_count = 5
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_6l7je"]
+a = Vector2(-40, 0)
+b = Vector2(1193, 0)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_jv6wh"]
+a = Vector2(-1, -37)
+b = Vector2(-1, 673)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_x6ack"]
+a = Vector2(1151, -24)
+b = Vector2(1151, 647)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_iacmt"]
+a = Vector2(1151, 650)
+b = Vector2(-41, 648)
+
+[node name="MainScene" type="Node2D" unique_id=1499628410]
+script = ExtResource("1_6l7je")
+
+[node name="Score" type="Label" parent="." unique_id=1868327781]
+offset_left = 500.99997
+offset_top = 2.0
+offset_right = 568.0
+offset_bottom = 25.0
+scale = Vector2(3, 3)
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "0"
+horizontal_alignment = 1
+
+[node name="Player" parent="." unique_id=1823752993 instance=ExtResource("1_52fb6")]
+position = Vector2(535, 336)
+scale = Vector2(0.75, 0.75)
+
+[node name="SpawnTimer" type="Timer" parent="." unique_id=719632389]
+
+[node name="SpawnPath" type="Path2D" parent="." unique_id=1410990396]
+curve = SubResource("Curve2D_52fb6")
+
+[node name="SpawnLocation" type="PathFollow2D" parent="SpawnPath" unique_id=758639265]
+position = Vector2(1261, 721)
+rotation = -3.1408696
+
+[node name="ScreenBoundaries" type="StaticBody2D" parent="." unique_id=1273230773]
+collision_layer = 9
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScreenBoundaries" unique_id=42451456]
+shape = SubResource("SegmentShape2D_6l7je")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ScreenBoundaries" unique_id=1031733390]
+shape = SubResource("SegmentShape2D_jv6wh")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="ScreenBoundaries" unique_id=899455691]
+shape = SubResource("SegmentShape2D_x6ack")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="ScreenBoundaries" unique_id=1649299915]
+shape = SubResource("SegmentShape2D_iacmt")

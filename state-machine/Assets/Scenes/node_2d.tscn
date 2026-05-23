@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://gx352y276jo3"]
+
+[ext_resource type="Script" uid="uid://cl1sn0rkyhx7u" path="res://Assets/Scripts/area_2d.gd" id="1_8t2v2"]
+[ext_resource type="Texture2D" uid="uid://d0hy3xfdd3frs" path="res://Background.png" id="1_mqbpb"]
+[ext_resource type="Texture2D" uid="uid://c0itwdcft5tfq" path="res://icon.svg" id="2_vohp4"]
+[ext_resource type="Texture2D" uid="uid://cxdudcdrjlc51" path="res://BurnThemAll.png" id="4_xgr2a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0e48y"]
+
+[node name="Node2D" type="Node2D" unique_id=109442950]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1396539207]
+position = Vector2(580, 322)
+texture = ExtResource("1_mqbpb")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1702167352]
+position = Vector2(600, 300)
+script = ExtResource("1_8t2v2")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D" unique_id=220171212]
+texture = ExtResource("2_vohp4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=250049598]
+scale = Vector2(6, 6)
+shape = SubResource("RectangleShape2D_0e48y")
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1524095048]
+position = Vector2(917, 478)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_xgr2a")
+
+[node name="Label" type="Label" parent="." unique_id=982170860]
+unique_name_in_owner = true
+offset_left = 132.0
+offset_top = 108.0
+offset_right = 246.0
+offset_bottom = 131.0
+scale = Vector2(2, 2)
+text = "State info text."
