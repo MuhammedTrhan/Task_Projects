@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://dnplk3rl76s7q" path="res://Scripts/enemy_area.gd" id="8_auwsv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_auwsv"]
-radius = 65.433334
+radius = 53.350002
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_f1ek2"]
 animations = [{
@@ -49,8 +49,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8erm5"]
-radius = 47.99561
-height = 131.98793
+radius = 47.9956
+height = 128.02435
 
 [node name="Enemy" type="CharacterBody2D" unique_id=812205986]
 scale = Vector2(0.75, 0.75)

@@ -3,7 +3,7 @@ extends CharacterBody2D
 @onready var sprite: AnimatedSprite2D = $EnemySprite
 @onready var damage_area: Area2D = $EnemyArea
 
-const SPEED = 150.0
+@export var speed: float = 150.0
 
 var target_position: Vector2 = Vector2.ZERO
 var target_assigned: bool = false
@@ -25,9 +25,9 @@ func _physics_process(_delta: float) -> void:
 		damage_area.rotation = target_angle
 
 		# Move the enemy towards the target position
-		velocity = direction * SPEED
+		velocity = direction * speed
 		move_and_slide()
-		sprite.play("swim")
+		sprite.play()
 
 		# Check if the enemy has reached the target position
 		if position.distance_to(target_position) < 10.0:

@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://51m0rxg1ew7s"]
+
+[ext_resource type="PackedScene" uid="uid://b7a0jom5u6t26" path="res://Scenes/enemy.tscn" id="1_r0h1u"]
+
+[node name="Enemy" unique_id=812205986 instance=ExtResource("1_r0h1u")]
+speed = 100.0
+
+[node name="EnemySprite" parent="." index="1" unique_id=1645992193]
+animation = &"walk"
