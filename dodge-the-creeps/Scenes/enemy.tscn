@@ -54,7 +54,7 @@ scale = Vector2(0.75, 0.75)
 collision_mask = 2
 script = ExtResource("1_1dp5w")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1645992193]
+[node name="EnemySprite" type="AnimatedSprite2D" parent="." unique_id=1645992193]
 sprite_frames = SubResource("SpriteFrames_f1ek2")
 animation = &"swim"
 
