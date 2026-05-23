@@ -10,7 +10,7 @@
 script = ExtResource("1_uhqqe")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=391192661]
-position = Vector2(452, 262)
+position = Vector2(288, 357)
 script = ExtResource("2_sasra")
 metadata/_edit_group_ = true
 
@@ -35,7 +35,7 @@ text = "press 'A'"
 
 [node name="Area2D2" type="Area2D" parent="." unique_id=1205224898]
 modulate = Color(1, 0, 0, 1)
-position = Vector2(917, 463)
+position = Vector2(962, 534)
 script = ExtResource("2_sasra")
 metadata/_edit_group_ = true
 
@@ -59,7 +59,7 @@ text = "press 'S'"
 
 [node name="Area2D3" type="Area2D" parent="." unique_id=150096150]
 modulate = Color(0.007843138, 1, 0.007843138, 1)
-position = Vector2(801, 142)
+position = Vector2(775, 185)
 script = ExtResource("2_sasra")
 metadata/_edit_group_ = true
 
