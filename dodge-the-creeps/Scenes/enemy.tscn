@@ -9,6 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://bccj3enl5wsqr" path="res://dodge_the_creeps_2d_assets/art/enemyWalking_2.png" id="6_haro7"]
 [ext_resource type="Script" uid="uid://dnplk3rl76s7q" path="res://Scripts/enemy_area.gd" id="8_auwsv"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_auwsv"]
+radius = 65.433334
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_f1ek2"]
 animations = [{
 "frames": [{
@@ -51,17 +54,23 @@ height = 131.98793
 
 [node name="Enemy" type="CharacterBody2D" unique_id=812205986]
 scale = Vector2(0.75, 0.75)
+collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_1dp5w")
 
+[node name="MoveShape" type="CollisionShape2D" parent="." unique_id=443603372]
+shape = SubResource("CircleShape2D_auwsv")
+
 [node name="EnemySprite" type="AnimatedSprite2D" parent="." unique_id=1645992193]
+position = Vector2(-1.3333334, 0)
 sprite_frames = SubResource("SpriteFrames_f1ek2")
 animation = &"swim"
 
 [node name="EnemyArea" type="Area2D" parent="." unique_id=1701396041]
+collision_layer = 2
 script = ExtResource("8_auwsv")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyArea" unique_id=1244984708]
+[node name="HitShape" type="CollisionShape2D" parent="EnemyArea" unique_id=1244984708]
 rotation = 1.5843304
 shape = SubResource("CapsuleShape2D_8erm5")
 

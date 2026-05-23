@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @onready var sprite: AnimatedSprite2D = $EnemySprite
+@onready var damage_area: Area2D = $EnemyArea
 
 const SPEED = 150.0
 
@@ -16,8 +17,12 @@ func _physics_process(_delta: float) -> void:
 		# Find the direction vector towards the target position and normalize it
 		var direction = (target_position - position).normalized()
 
+		# Calculate the angle once
+		var target_angle = direction.angle()
+
 		# Rotate the enemy to face the direction it's moving
-		sprite.rotation = direction.angle()
+		sprite.rotation = target_angle
+		damage_area.rotation = target_angle
 
 		# Move the enemy towards the target position
 		velocity = direction * SPEED
@@ -39,7 +44,7 @@ func recycle_to_pool() -> void:
 	hide()
 
 	# Disable its inner Area2D collision shape so it stops hurting the player
-	$EnemyArea/CollisionShape2D.disabled = true
+	$EnemyArea/HitShape.disabled = true
 
 
 func spawn_from_pool(spawn_pos: Vector2, target_pos: Vector2) -> void:
@@ -51,4 +56,4 @@ func spawn_from_pool(spawn_pos: Vector2, target_pos: Vector2) -> void:
 	show()
 
 	# Enable its inner Area2D collision shape so it can hurt the player again
-	$EnemyArea/CollisionShape2D.disabled = false
+	$EnemyArea/HitShape.disabled = false

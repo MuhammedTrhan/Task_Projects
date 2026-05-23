@@ -36,17 +36,19 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D" unique_id=1823752993]
-collision_layer = 9
+collision_mask = 9
 script = ExtResource("1_fkybt")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1738771153]
+[node name="MoveShape" type="CollisionShape2D" parent="." unique_id=1738771153]
 shape = SubResource("CapsuleShape2D_8erm5")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=609755657]
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="." unique_id=609755657]
 sprite_frames = SubResource("SpriteFrames_f1ek2")
 animation = &"walk"
 
 [node name="Area2D" type="Area2D" parent="." unique_id=760007530]
+position = Vector2(0, -1)
+collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=439921001]
+[node name="HitShape" type="CollisionShape2D" parent="Area2D" unique_id=439921001]
 shape = SubResource("CapsuleShape2D_8erm5")
