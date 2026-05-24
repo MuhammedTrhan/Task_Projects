@@ -1,5 +1,7 @@
 extends Node2D
 
+const GAME_OVER_SCENE_PATH = "res://Scenes/game_over_menu.tscn"
+
 @onready var spawn_timer: Timer = $SpawnTimer
 @onready var enemy_locater: PathFollow2D = $SpawnPath/SpawnLocation
 @onready var score_label: Label = $Score
@@ -73,6 +75,9 @@ func _on_spawn_timer_timeout() -> void:
 		new_enemy.global_position = spawn_position
 		new_enemy.target_position = target_position
 		new_enemy.target_assigned = true
+
+		# Connect the player_hit signal to the _on_game_over function
+		new_enemy.get_node("EnemyArea").player_hit.connect(_on_game_over)
 		
 		enemy_pool.append(new_enemy)
 		add_child(new_enemy)
@@ -96,3 +101,10 @@ func get_weighted_random_index(weights: Array[float]) -> int:
 			return i
 
 	return weights.size() - 1 # Fallback to the last index
+
+func _on_game_over() -> void:
+	print("Game Over!")
+
+	spawn_timer.stop() # Stop spawning new enemies
+
+	get_tree().change_scene_to_file(GAME_OVER_SCENE_PATH) # Change to the game over scene
