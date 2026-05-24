@@ -5,7 +5,8 @@ const PAUSE_SCENE_PATH = "res://Scenes/pause_menu.tscn"
 
 @onready var spawn_timer: Timer = $SpawnTimer
 @onready var enemy_locater: PathFollow2D = $SpawnPath/SpawnLocation
-@onready var score_label: Label = $Score
+@onready var score_label: Label = $HUDCanvas/Score
+@onready var difficulty_label: Label = $HUDCanvas/DifficultyLabel
 
 
 var total_time: float = 0.0
@@ -27,6 +28,8 @@ var current_weights: Array[float] = [0.0, 0.0, 0.0]
 # Wait times for spawner
 var init_spawn_time: float = 1.5
 var final_spawn_time: float = 0.5
+
+var diff_factor: float = 0.0
 
 var enemy_pool: Array = []
 
@@ -54,7 +57,8 @@ func _process(delta: float) -> void:
 
 
 func _on_spawn_timer_timeout() -> void:
-	var diff_factor = clamp(total_time / max_diff_time, 0.0, 1.0)
+	diff_factor = clamp(total_time / max_diff_time, 0.0, 1.0)
+	difficulty_label.text = "Difficulty: " + str(int(diff_factor * 100)) + "%"
 
 	spawn_timer.wait_time = lerp(init_spawn_time, final_spawn_time, diff_factor)
 	
