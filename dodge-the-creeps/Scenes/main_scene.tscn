@@ -19,10 +19,10 @@ b = Vector2(-1, 673)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_x6ack"]
 a = Vector2(1151, -24)
-b = Vector2(1151, 647)
+b = Vector2(1152, 672)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_iacmt"]
-a = Vector2(1151, 650)
+a = Vector2(1178, 648)
 b = Vector2(-41, 648)
 
 [node name="MainScene" type="Node2D" unique_id=1499628410]
