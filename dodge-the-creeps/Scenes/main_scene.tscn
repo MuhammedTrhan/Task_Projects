@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bl4cxotcmr7nc" path="res://Scripts/main_scene.gd" id="1_6l7je"]
 [ext_resource type="PackedScene" uid="uid://caub8ij26tki7" path="res://Scenes/player.tscn" id="1_52fb6"]
+[ext_resource type="PackedScene" uid="uid://d1n52lghtu3us" path="res://Scenes/pause_menu.tscn" id="3_jv6wh"]
 
 [sub_resource type="Curve2D" id="Curve2D_52fb6"]
 _data = {
@@ -72,3 +73,19 @@ shape = SubResource("SegmentShape2D_x6ack")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="ScreenBoundaries" unique_id=1649299915]
 shape = SubResource("SegmentShape2D_iacmt")
+
+[node name="PauseButton" type="Button" parent="." unique_id=1718914419]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 1034.0
+offset_right = 1154.0
+offset_bottom = 53.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 32
+text = "Pause"
+
+[node name="PauseMenu" parent="." unique_id=544355498 instance=ExtResource("3_jv6wh")]
+visible = false
+
+[connection signal="pressed" from="PauseButton" to="." method="_on_pause_button_pressed"]

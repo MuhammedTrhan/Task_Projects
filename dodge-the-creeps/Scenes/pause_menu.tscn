@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://d1n52lghtu3us"]
+
+[ext_resource type="Script" uid="uid://leikra30cbso" path="res://Scripts/pause_menu.gd" id="1_emv3i"]
+
+[node name="PauseMenu" type="CanvasLayer" unique_id=544355498]
+process_mode = 3
+script = ExtResource("1_emv3i")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1923828387]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.11372549)
+
+[node name="HighScoreLabel" type="Label" parent="." unique_id=1493505370]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -142.75
+offset_top = 175.0
+offset_right = 142.75
+offset_bottom = 316.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 44
+text = "High Score: 0
+"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=55620472]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -125.0
+offset_top = 300.0
+offset_right = 125.0
+offset_bottom = 483.0
+grow_horizontal = 2
+theme_override_constants/separation = 12
+
+[node name="ContinueButton" type="Button" parent="VBoxContainer" unique_id=926769777]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Continue"
+
+[node name="RestartButton" type="Button" parent="VBoxContainer" unique_id=325315168]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Restart"
+
+[node name="QuitButton" type="Button" parent="VBoxContainer" unique_id=1238223386]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Quit"
+
+[node name="MainMenuButton" type="Button" parent="VBoxContainer" unique_id=25466774]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Main Menu"
+
+[connection signal="pressed" from="VBoxContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]

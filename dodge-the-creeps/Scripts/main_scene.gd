@@ -1,6 +1,7 @@
 extends Node2D
 
 const GAME_OVER_SCENE_PATH = "res://Scenes/game_over_menu.tscn"
+const PAUSE_SCENE_PATH = "res://Scenes/pause_menu.tscn"
 
 @onready var spawn_timer: Timer = $SpawnTimer
 @onready var enemy_locater: PathFollow2D = $SpawnPath/SpawnLocation
@@ -30,10 +31,13 @@ var final_spawn_time: float = 0.5
 var enemy_pool: Array = []
 
 func _ready() -> void:
-	# 2. Configure and start the timer
+	# Configure and start the timer
 	spawn_timer.wait_time = init_spawn_time
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	spawn_timer.start()
+
+	# Connect the pause menu signal
+	$PauseMenu.game_paused.connect(on_game_paused)
 
 func _process(delta: float) -> void:
 	# 4. Increment the total time and update the score
@@ -43,6 +47,7 @@ func _process(delta: float) -> void:
 	if current_score != score:
 		score = current_score
 		score_label.text = str(score)
+
 
 func _on_spawn_timer_timeout() -> void:
 	var diff_factor = clamp(total_time / max_diff_time, 0.0, 1.0)
@@ -111,3 +116,15 @@ func _on_game_over() -> void:
 	ScoreManager.set_score(score)
 
 	get_tree().change_scene_to_file(GAME_OVER_SCENE_PATH) # Change to the game over scene
+
+
+func _on_restart_button_pressed() -> void:
+	get_tree().reload_current_scene()
+
+
+func _on_pause_button_pressed() -> void:
+	$PauseMenu._toggle_pause()
+
+func on_game_paused() -> void:
+	# Save the score to the ScoreManager singleton
+	ScoreManager.set_score(score)
