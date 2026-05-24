@@ -38,6 +38,10 @@ func _ready() -> void:
 
 	# Connect the pause menu signal
 	$PauseMenu.game_paused.connect(on_game_paused)
+	$PauseMenu.game_resumed.connect(on_game_resumed)
+
+	# Start the music
+	$Music.play()
 
 func _process(delta: float) -> void:
 	# 4. Increment the total time and update the score
@@ -111,11 +115,13 @@ func _on_game_over() -> void:
 	print("Game Over!")
 
 	spawn_timer.stop() # Stop spawning new enemies
+	$Music.stop() # Stop the music
 
 	# Save the score to the ScoreManager singleton
 	ScoreManager.set_score(score)
 
-	get_tree().change_scene_to_file(GAME_OVER_SCENE_PATH) # Change to the game over scene
+	# Change to the game over scene
+	get_tree().call_deferred("change_scene_to_file", GAME_OVER_SCENE_PATH)
 
 
 func _on_restart_button_pressed() -> void:
@@ -128,3 +134,8 @@ func _on_pause_button_pressed() -> void:
 func on_game_paused() -> void:
 	# Save the score to the ScoreManager singleton
 	ScoreManager.set_score(score)
+
+	$Music.volume_db = -10 # Lower the music volume when paused
+
+func on_game_resumed() -> void:
+	$Music.volume_db = 0 # Restore the music volume when resumed

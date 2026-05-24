@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bl4cxotcmr7nc" path="res://Scripts/main_scene.gd" id="1_6l7je"]
 [ext_resource type="PackedScene" uid="uid://caub8ij26tki7" path="res://Scenes/player.tscn" id="1_52fb6"]
 [ext_resource type="PackedScene" uid="uid://d1n52lghtu3us" path="res://Scenes/pause_menu.tscn" id="3_jv6wh"]
+[ext_resource type="AudioStream" uid="uid://b1g0pumyjrykp" path="res://dodge_the_creeps_2d_assets/art/House In a Forest Loop.ogg" id="4_x6ack"]
 
 [sub_resource type="Curve2D" id="Curve2D_52fb6"]
 _data = {
@@ -85,7 +86,22 @@ grow_horizontal = 0
 theme_override_font_sizes/font_size = 32
 text = "Pause"
 
+[node name="Label" type="Label" parent="." unique_id=1033887544]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 1056.0
+offset_top = 61.0
+offset_right = 1135.0
+offset_bottom = 84.0
+grow_horizontal = 0
+text = "Press 'esc'"
+
 [node name="PauseMenu" parent="." unique_id=544355498 instance=ExtResource("3_jv6wh")]
 visible = false
+
+[node name="Music" type="AudioStreamPlayer2D" parent="." unique_id=347330071]
+process_mode = 3
+stream = ExtResource("4_x6ack")
 
 [connection signal="pressed" from="PauseButton" to="." method="_on_pause_button_pressed"]

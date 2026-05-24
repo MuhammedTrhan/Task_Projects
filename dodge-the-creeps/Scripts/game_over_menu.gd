@@ -16,6 +16,8 @@ func _ready() -> void:
 	score_label.text = "Score: " + str(current_score)
 	high_score_label.text = "High Score: " + str(high_score)
 
+	$DeathSound.play()
+
 func _on_restart_button_pressed() -> void:
 	get_tree().change_scene_to_file(GAME_SCENE_PATH)
 

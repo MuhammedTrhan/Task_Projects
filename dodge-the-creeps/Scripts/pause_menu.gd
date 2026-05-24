@@ -5,6 +5,7 @@ const MAIN_MENU_SCENE_PATH = "res://Scenes/main_menu.tscn"
 @onready var high_score_label: Label = $HighScoreLabel
 
 signal game_paused
+signal game_resumed
 
 
 # Called when the node enters the scene tree for the first time.
@@ -32,6 +33,8 @@ func _toggle_pause() -> void:
 		# Update the high score label when the menu is shown
 		var high_score = ScoreManager.high_score
 		high_score_label.text = "High Score: " + str(high_score)
+	else:
+		game_resumed.emit()
 	
 	visible = is_paused
 

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://vaq6al4wvwq3"]
 
 [ext_resource type="Script" uid="uid://dpwteohqdatlh" path="res://Scripts/main_menu.gd" id="1_28flt"]
+[ext_resource type="FontFile" uid="uid://cvj600n7ju38q" path="res://dodge_the_creeps_2d_assets/fonts/Xolonium-Regular.ttf" id="2_48xlc"]
 
 [node name="MainMenu" type="Control" unique_id=2006742740]
 layout_mode = 3
@@ -10,6 +11,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_28flt")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=188136510]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.18039216, 0.1882353, 0.8039216, 1)
 
 [node name="Label" type="Label" parent="." unique_id=872650765]
 layout_mode = 1
@@ -21,6 +31,7 @@ offset_top = 100.0
 offset_right = 68.5
 offset_bottom = 123.0
 grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_48xlc")
 theme_override_font_sizes/font_size = 75
 text = "Dodge the Creeps"
 
@@ -59,6 +70,19 @@ text = "Start"
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Quit"
+
+[node name="Label2" type="Label" parent="." unique_id=1407623670]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -74.5
+offset_top = 500.0
+offset_right = 74.5
+offset_bottom = 541.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 16
+text = "Press Enter to Start"
 
 [connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://off2a0kd3bmg"]
 
 [ext_resource type="Script" uid="uid://b3oxr3e2r77i5" path="res://Scripts/game_over_menu.gd" id="1_arass"]
+[ext_resource type="FontFile" uid="uid://cvj600n7ju38q" path="res://dodge_the_creeps_2d_assets/fonts/Xolonium-Regular.ttf" id="2_i22rp"]
+[ext_resource type="AudioStream" uid="uid://cg38os6caupgc" path="res://dodge_the_creeps_2d_assets/art/gameover.wav" id="3_dsdey"]
 
 [node name="GameOverMenu" type="Control" unique_id=398448924]
 layout_mode = 3
@@ -10,6 +12,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_arass")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=413492587]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.047058824, 0.047058824, 1)
 
 [node name="Label" type="Label" parent="." unique_id=579360995]
 layout_mode = 1
@@ -21,6 +32,7 @@ offset_top = 100.0
 offset_right = 68.5
 offset_bottom = 123.0
 grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_i22rp")
 theme_override_font_sizes/font_size = 75
 text = "GAME OVER"
 
@@ -78,6 +90,9 @@ text = "Quit"
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Main Menu"
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="." unique_id=606340855]
+stream = ExtResource("3_dsdey")
 
 [connection signal="pressed" from="VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
