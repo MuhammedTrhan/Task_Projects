@@ -21,8 +21,22 @@ offset_top = 100.0
 offset_right = 68.5
 offset_bottom = 123.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 44
+theme_override_font_sizes/font_size = 75
 text = "Dodge the Creeps"
+
+[node name="HighScoreLabel" type="Label" parent="." unique_id=1340561420]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -142.75
+offset_top = 200.0
+offset_right = 142.75
+offset_bottom = 341.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 44
+text = "High Score: 0
+"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1033045855]
 layout_mode = 1
@@ -30,9 +44,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -125.0
-offset_top = 250.0
+offset_top = 325.0
 offset_right = 125.0
-offset_bottom = 360.0
+offset_bottom = 443.0
 grow_horizontal = 2
 theme_override_constants/separation = 12
 

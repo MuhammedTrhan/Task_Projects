@@ -24,15 +24,43 @@ grow_horizontal = 2
 theme_override_font_sizes/font_size = 75
 text = "GAME OVER"
 
+[node name="ScoreLabel" type="Label" parent="." unique_id=1676747940]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -94.5
+offset_top = 200.0
+offset_right = 94.5
+offset_bottom = 341.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 50
+text = "Score: 0
+"
+
+[node name="HighScoreLabel" type="Label" parent="." unique_id=1464511623]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -142.75
+offset_top = 275.0
+offset_right = 142.75
+offset_bottom = 416.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 44
+text = "High Score: 0
+"
+
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1287545047]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -125.0
-offset_top = 300.0
+offset_top = 400.0
 offset_right = 125.0
-offset_bottom = 418.0
+offset_bottom = 583.0
 grow_horizontal = 2
 theme_override_constants/separation = 12
 
@@ -46,5 +74,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Quit"
 
+[node name="MainMenuButton" type="Button" parent="VBoxContainer" unique_id=988439758]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Main Menu"
+
 [connection signal="pressed" from="VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]

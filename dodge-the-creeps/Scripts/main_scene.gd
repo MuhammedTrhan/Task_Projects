@@ -107,4 +107,7 @@ func _on_game_over() -> void:
 
 	spawn_timer.stop() # Stop spawning new enemies
 
+	# Save the score to the ScoreManager singleton
+	ScoreManager.set_score(score)
+
 	get_tree().change_scene_to_file(GAME_OVER_SCENE_PATH) # Change to the game over scene
