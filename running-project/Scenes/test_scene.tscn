@@ -195,5 +195,8 @@ position = Vector2(201, 585)
 [node name="Coin3" parent="." unique_id=1919290949 instance=ExtResource("2_ak5v8")]
 position = Vector2(1294, 616)
 
+[node name="Coin4" parent="." unique_id=1676778267 instance=ExtResource("2_ak5v8")]
+position = Vector2(740, 519)
+
 [node name="GameManager" type="Node" parent="." unique_id=864416476]
 script = ExtResource("4_hb2xm")
