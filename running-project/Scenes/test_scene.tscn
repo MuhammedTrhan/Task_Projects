@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://48x6uf625bo7" path="res://Scripts/test_scene.gd" id="1_50ct6"]
 [ext_resource type="PackedScene" uid="uid://e28l5j2svhea" path="res://Scenes/coin.tscn" id="2_ak5v8"]
-[ext_resource type="PackedScene" uid="uid://14q6jd24j8dr" path="res://Scenes/player.tscn" id="4_ak5v8"]
 [ext_resource type="Script" uid="uid://j13s6stcdiio" path="res://Scripts/game_manager.gd" id="4_hb2xm"]
 [ext_resource type="Texture2D" uid="uid://soydjrqojpv6" path="res://Assets/Environment/Tiles.png" id="5_ak5v8"]
 
@@ -195,9 +194,6 @@ position = Vector2(201, 585)
 
 [node name="Coin3" parent="." unique_id=1919290949 instance=ExtResource("2_ak5v8")]
 position = Vector2(1294, 616)
-
-[node name="Player" parent="." unique_id=1704028917 instance=ExtResource("4_ak5v8")]
-position = Vector2(67, 578)
 
 [node name="GameManager" type="Node" parent="." unique_id=864416476]
 script = ExtResource("4_hb2xm")
