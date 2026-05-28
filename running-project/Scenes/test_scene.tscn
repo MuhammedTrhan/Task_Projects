@@ -6,48 +6,6 @@
 [ext_resource type="Script" uid="uid://j13s6stcdiio" path="res://Scripts/game_manager.gd" id="4_hb2xm"]
 [ext_resource type="PackedScene" uid="uid://cn5ltnr2e01vu" path="res://Scenes/player.tscn" id="5_ak5v8"]
 
-[sub_resource type="TileMapPattern" id="TileMapPattern_ak5v8"]
-tile_data = PackedInt32Array(0, 65537, 0, 65536, 65537, 1)
-
-[sub_resource type="TileMapPattern" id="TileMapPattern_x033f"]
-tile_data = PackedInt32Array(0, 131073, 0, 65536, 131073, 1)
-
-[sub_resource type="TileMapPattern" id="TileMapPattern_rdbpf"]
-tile_data = PackedInt32Array(65536, 327681, 5, 131072, 327681, 6, 1, 393217, 4, 65537, 393217, 5, 131073, 393217, 6)
-
-[sub_resource type="TileMapPattern" id="TileMapPattern_oho3u"]
-tile_data = PackedInt32Array(0, 524289, 4, 65536, 524289, 5, 131072, 524289, 6, 65537, 589825, 5, 131073, 589825, 6)
-
-[sub_resource type="TileMapPattern" id="TileMapPattern_yglu3"]
-tile_data = PackedInt32Array(65536, 327681, 5, 131072, 327681, 6, 1, 393217, 4, 65537, 393217, 5, 131073, 393217, 6, 2, 262145, 0, 65538, 262145, 1, 131074, 458753, 6, 3, 524289, 4, 65539, 524289, 5, 131075, 524289, 6, 65540, 589825, 5, 131076, 589825, 6)
-
-[sub_resource type="TileMapPattern" id="TileMapPattern_d3awe"]
-tile_data = PackedInt32Array(0, 65537, 0, 65536, 65537, 1, 131072, 65537, 6, 1, 131073, 0, 65537, 131073, 1, 131073, 131073, 6, 2, 196609, 0, 65538, 196609, 1, 131074, 196609, 6)
-
-[sub_resource type="TileMapPattern" id="TileMapPattern_bwjpn"]
-tile_data = PackedInt32Array(0, 196609, 0, 65536, 196609, 1)
-
-[sub_resource type="TileMapPattern" id="TileMapPattern_ibmi3"]
-tile_data = PackedInt32Array(0, 393217, 2, 65536, 393217, 3)
-
-[sub_resource type="TileMapPattern" id="TileMapPattern_4blnk"]
-tile_data = PackedInt32Array(0, 262145, 0, 65536, 262145, 1)
-
-[sub_resource type="TileMapPattern" id="TileMapPattern_tnimv"]
-tile_data = PackedInt32Array(0, 327681, 0, 65536, 327681, 1)
-
-[sub_resource type="TileMapPattern" id="TileMapPattern_4qg1e"]
-tile_data = PackedInt32Array(0, 327681, 2, 65536, 327681, 3)
-
-[sub_resource type="TileMapPattern" id="TileMapPattern_040rt"]
-tile_data = PackedInt32Array(0, 524289, 1, 65536, 524289, 2, 131072, 524289, 3)
-
-[sub_resource type="TileMapPattern" id="TileMapPattern_dhrl2"]
-tile_data = PackedInt32Array(0, 589825, 2, 65536, 589825, 3)
-
-[sub_resource type="TileMapPattern" id="TileMapPattern_i0miu"]
-tile_data = PackedInt32Array(0, 458753, 1, 65536, 458753, 2, 131072, 458753, 3)
-
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hb2xm"]
 texture = ExtResource("2_50ct6")
 0:0/0 = 0
@@ -179,20 +137,6 @@ texture = ExtResource("2_50ct6")
 physics_layer_0/collision_layer = 4
 physics_layer_0/collision_mask = 3
 sources/0 = SubResource("TileSetAtlasSource_hb2xm")
-pattern_0 = SubResource("TileMapPattern_ak5v8")
-pattern_1 = SubResource("TileMapPattern_x033f")
-pattern_2 = SubResource("TileMapPattern_bwjpn")
-pattern_3 = SubResource("TileMapPattern_ibmi3")
-pattern_4 = SubResource("TileMapPattern_4blnk")
-pattern_5 = SubResource("TileMapPattern_tnimv")
-pattern_6 = SubResource("TileMapPattern_4qg1e")
-pattern_7 = SubResource("TileMapPattern_040rt")
-pattern_8 = SubResource("TileMapPattern_dhrl2")
-pattern_9 = SubResource("TileMapPattern_i0miu")
-pattern_10 = SubResource("TileMapPattern_rdbpf")
-pattern_11 = SubResource("TileMapPattern_oho3u")
-pattern_12 = SubResource("TileMapPattern_yglu3")
-pattern_13 = SubResource("TileMapPattern_d3awe")
 
 [node name="TestScene" type="Node2D" unique_id=1497849694]
 script = ExtResource("1_50ct6")
