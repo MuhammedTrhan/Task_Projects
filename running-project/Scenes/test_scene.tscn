@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ch40p2a6t3js7" path="res://Assets/DungeonAssetPack/character and tileset/Dungeon_Tileset.png" id="2_50ct6"]
 [ext_resource type="PackedScene" uid="uid://e28l5j2svhea" path="res://Scenes/coin.tscn" id="2_ak5v8"]
 [ext_resource type="Script" uid="uid://j13s6stcdiio" path="res://Scripts/game_manager.gd" id="4_hb2xm"]
+[ext_resource type="PackedScene" path="res://Scenes/player.tscn" id="5_ak5v8"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_ak5v8"]
 tile_data = PackedInt32Array(0, 65537, 0, 65536, 65537, 1)
@@ -192,3 +193,7 @@ position = Vector2(111, 507)
 
 [node name="Coin3" parent="." unique_id=536201473 instance=ExtResource("2_ak5v8")]
 position = Vector2(1080, 323)
+
+[node name="Player" parent="." unique_id=1704028917 instance=ExtResource("5_ak5v8")]
+position = Vector2(66, 69)
+scale = Vector2(0.5, 0.5)
