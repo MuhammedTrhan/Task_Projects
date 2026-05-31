@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dygxy6hgu5m7v"]
+
+[ext_resource type="PackedScene" uid="uid://b1qent8a45g34" path="res://Scenes/base_enemy.tscn" id="1_lgmik"]
+[ext_resource type="Texture2D" uid="uid://bt0k4u7fi7bil" path="res://Assets/Bringer-Of-Death/SpriteSheet/Bringer-of-Death-SpritSheet.png" id="2_y2r5v"]
+
+[node name="BringerOfDeath" unique_id=1864954513 instance=ExtResource("1_lgmik")]
+
+[node name="MovementBox" parent="." index="0" unique_id=2071017867]
+position = Vector2(35, 41)
+
+[node name="Sprite2D" parent="." index="1" unique_id=1495958942]
+texture = ExtResource("2_y2r5v")
+hframes = 8
+vframes = 8
+
+[node name="HitBox" parent="HitArea" parent_id_path=PackedInt32Array(1655964951) index="0" unique_id=1028288541]
+position = Vector2(36, 20)

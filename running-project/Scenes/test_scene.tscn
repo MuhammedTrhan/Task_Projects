@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://e28l5j2svhea" path="res://Scenes/coin.tscn" id="2_ak5v8"]
 [ext_resource type="Script" uid="uid://j13s6stcdiio" path="res://Scripts/game_manager.gd" id="4_hb2xm"]
 [ext_resource type="PackedScene" uid="uid://cn5ltnr2e01vu" path="res://Scenes/player.tscn" id="5_ak5v8"]
+[ext_resource type="PackedScene" uid="uid://dygxy6hgu5m7v" path="res://Scenes/bringer_of_death.tscn" id="6_x033f"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hb2xm"]
 texture = ExtResource("2_50ct6")
@@ -167,3 +168,7 @@ position = Vector2(1080, 323)
 [node name="Player" parent="." unique_id=1704028917 instance=ExtResource("5_ak5v8")]
 position = Vector2(66, 69)
 scale = Vector2(0.5, 0.5)
+
+[node name="BringerOfDeath" parent="." unique_id=1864954513 instance=ExtResource("6_x033f")]
+position = Vector2(823, 399)
+patrol_points = Array[Vector2]([Vector2(0, -100), Vector2(-86.6, 50), Vector2(86.6, 50)])

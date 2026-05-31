@@ -3,9 +3,11 @@
 [ext_resource type="Script" uid="uid://lppeuqubnob" path="res://Scripts/base_enemy.gd" id="1_wsate"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rnv5g"]
-radius = 8.0
+radius = 13.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wsate"]
+radius = 19.0
+height = 56.0
 
 [node name="BaseEnemy" type="CharacterBody2D" unique_id=1864954513]
 collision_layer = 2
