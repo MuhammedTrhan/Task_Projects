@@ -2,7 +2,8 @@ extends CharacterBody2D
 
 enum State {
 	PATROL,
-	CHASE
+	CHASE,
+	HIT
 }
 
 @export var chase_speed: float = 150.0
@@ -17,6 +18,9 @@ var absolute_patrol_points: Array[Vector2] = []
 var current_point_index: int = 0
 # How close counts as reaching the point
 var arrival_threshold: float = 10.0
+
+var hit_triggered: bool = false
+var hit_finished: bool = false
 
 func _ready() -> void:
 	# Find the player node
@@ -34,7 +38,9 @@ func _physics_process(_delta: float) -> void:
 			handle_patrol(_delta)
 		State.CHASE:
 			handle_chase(_delta)
-	
+		State.HIT:
+			velocity = Vector2.ZERO
+
 	move_and_slide()
 
 	animation_manager()
@@ -45,11 +51,34 @@ func state_manager() -> State:
 		return State.PATROL
 
 	var distance_to_player = global_position.distance_to(player.global_position)
+	
+	if current_state == State.PATROL:
+		if hit_triggered:
+			return State.HIT
+		if distance_to_player < chase_threshold:
+			return State.CHASE
+		else:
+			return current_state
 
-	if distance_to_player < chase_threshold:
-		return State.CHASE
+	elif current_state == State.CHASE:
+		if hit_triggered:
+			return State.HIT
+		if distance_to_player >= chase_threshold:
+			return State.PATROL
+		else:
+			return current_state
+
+	elif current_state == State.HIT:
+		if hit_finished:
+			hit_finished = false
+			if distance_to_player < chase_threshold:
+				return State.CHASE
+			else:
+				return State.PATROL
+		else:
+			return current_state
 	else:
-		return State.PATROL
+		return current_state
 
 
 func handle_patrol(_delta: float) -> void:
@@ -72,6 +101,10 @@ func handle_chase(_delta: float) -> void:
 
 
 func animation_manager() -> void:
+	if current_state == State.HIT:
+		$FlipPivot/AnimationPlayer.play("attack")
+		return
+	
 	# play the walk animation if we're moving, otherwise play idle
 	if velocity.length() > 0:
 		$FlipPivot/AnimationPlayer.play("walk")
@@ -84,3 +117,19 @@ func animation_manager() -> void:
 			$FlipPivot.scale.x = 1
 		else:
 			$FlipPivot.scale.x = -1
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	# After the attack animation finishes, return to patrolling
+	if anim_name == "attack":
+		hit_finished = true
+
+
+func _on_hit_area_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player") and not hit_triggered:
+		hit_triggered = true
+
+
+func _on_hit_area_body_exited(body: Node2D) -> void:
+	if body.is_in_group("player") and hit_triggered:
+		hit_triggered = false

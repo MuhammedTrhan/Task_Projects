@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://lppeuqubnob" path="res://Scripts/base_enemy.gd" id="1_wsate"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wsate"]
-radius = 19.0
-height = 56.0
+radius = 24.0
+height = 98.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rnv5g"]
 radius = 13.0
