@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://dkasuq03xq3a8"]
+
+[ext_resource type="Script" uid="uid://48x6uf625bo7" path="res://test_scene.gd" id="1_uhqqe"]
+[ext_resource type="Texture2D" uid="uid://ctincokuqnkx1" path="res://icon.svg" id="2_ia1lp"]
+[ext_resource type="Script" uid="uid://cduyl0pogr8gv" path="res://area_2d.gd" id="2_sasra"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sasra"]
+
+[node name="Node2D" type="Node2D" unique_id=1497849694]
+script = ExtResource("1_uhqqe")
+
+[node name="Label" type="Label" parent="." unique_id=1069691033]
+offset_right = 47.0
+offset_bottom = 23.0
+text = "Hello"
+
+[node name="Area2D" type="Area2D" parent="." unique_id=391192661]
+position = Vector2(452, 262)
+script = ExtResource("2_sasra")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D" unique_id=445332331]
+self_modulate = Color(0, 0.003921569, 1, 1)
+texture = ExtResource("2_ia1lp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=418857086]
+scale = Vector2(6, 6)
+shape = SubResource("RectangleShape2D_sasra")
+
+[node name="Label" type="Label" parent="Area2D" unique_id=1229152312]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -32.5
+offset_top = -85.0
+offset_right = 32.5
+offset_bottom = -62.0
+grow_horizontal = 2
+text = "press 'A'"
+
+[node name="Area2D2" type="Area2D" parent="." unique_id=1205224898]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(917, 463)
+script = ExtResource("2_sasra")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D2" unique_id=1787858891]
+texture = ExtResource("2_ia1lp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2" unique_id=1488871858]
+scale = Vector2(6, 6)
+shape = SubResource("RectangleShape2D_sasra")
+
+[node name="Label" type="Label" parent="Area2D2" unique_id=874185797]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -32.5
+offset_top = -85.0
+offset_right = 32.5
+offset_bottom = -62.0
+grow_horizontal = 2
+text = "press 'S'"
+
+[node name="Area2D3" type="Area2D" parent="." unique_id=150096150]
+modulate = Color(0.007843138, 1, 0.007843138, 1)
+position = Vector2(801, 142)
+script = ExtResource("2_sasra")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D3" unique_id=664847245]
+texture = ExtResource("2_ia1lp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D3" unique_id=110144332]
+scale = Vector2(6, 6)
+shape = SubResource("RectangleShape2D_sasra")
+
+[node name="Label" type="Label" parent="Area2D3" unique_id=289314464]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -32.5
+offset_top = -85.0
+offset_right = 32.5
+offset_bottom = -62.0
+grow_horizontal = 2
+text = "press 'D'"
+
+[connection signal="mouse_entered" from="Area2D" to="Area2D" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="Area2D" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="Area2D2" to="Area2D2" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D2" to="Area2D2" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="Area2D3" to="Area2D3" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D3" to="Area2D3" method="_on_mouse_exited"]
