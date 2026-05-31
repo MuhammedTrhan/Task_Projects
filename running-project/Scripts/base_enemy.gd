@@ -36,6 +36,8 @@ func _physics_process(_delta: float) -> void:
 			handle_chase(_delta)
 	
 	move_and_slide()
+
+	animation_manager()
 		
 
 func state_manager() -> State:
@@ -67,3 +69,18 @@ func handle_patrol(_delta: float) -> void:
 func handle_chase(_delta: float) -> void:
 	var direction = global_position.direction_to(player.global_position)
 	velocity = direction * chase_speed
+
+
+func animation_manager() -> void:
+	# play the walk animation if we're moving, otherwise play idle
+	if velocity.length() > 0:
+		$FlipPivot/AnimationPlayer.play("walk")
+	else:
+		$FlipPivot/AnimationPlayer.play("idle")
+	
+	# flip the sprite based on movement direction
+	if velocity.x != 0:
+		if velocity.x < 0:
+			$FlipPivot.scale.x = 1
+		else:
+			$FlipPivot.scale.x = -1

@@ -2,28 +2,31 @@
 
 [ext_resource type="Script" uid="uid://lppeuqubnob" path="res://Scripts/base_enemy.gd" id="1_wsate"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_rnv5g"]
-radius = 13.0
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wsate"]
 radius = 19.0
 height = 56.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rnv5g"]
+radius = 13.0
 
 [node name="BaseEnemy" type="CharacterBody2D" unique_id=1864954513]
 collision_layer = 2
 collision_mask = 7
 script = ExtResource("1_wsate")
 
+[node name="FlipPivot" type="Node2D" parent="." unique_id=154655260]
+
+[node name="Sprite2D" type="Sprite2D" parent="FlipPivot" unique_id=1495958942]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="FlipPivot" unique_id=460346007]
+root_node = NodePath("../..")
+
+[node name="HitArea" type="Area2D" parent="FlipPivot" unique_id=1655964951]
+collision_layer = 2
+
+[node name="HitBox" type="CollisionShape2D" parent="FlipPivot/HitArea" unique_id=1028288541]
+shape = SubResource("CapsuleShape2D_wsate")
+
 [node name="MovementBox" type="CollisionShape2D" parent="." unique_id=2071017867]
 position = Vector2(0, 9)
 shape = SubResource("CircleShape2D_rnv5g")
-
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1495958942]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=460346007]
-
-[node name="HitArea" type="Area2D" parent="." unique_id=1655964951]
-collision_layer = 2
-
-[node name="HitBox" type="CollisionShape2D" parent="HitArea" unique_id=1028288541]
-shape = SubResource("CapsuleShape2D_wsate")

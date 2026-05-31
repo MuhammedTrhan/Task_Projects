@@ -3,15 +3,72 @@
 [ext_resource type="PackedScene" uid="uid://b1qent8a45g34" path="res://Scenes/base_enemy.tscn" id="1_lgmik"]
 [ext_resource type="Texture2D" uid="uid://bt0k4u7fi7bil" path="res://Assets/Bringer-Of-Death/SpriteSheet/Bringer-of-Death-SpritSheet.png" id="2_y2r5v"]
 
+[sub_resource type="Animation" id="Animation_lgmik"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlipPivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_y2r5v"]
+resource_name = "idle"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlipPivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 0]
+}
+
+[sub_resource type="Animation" id="Animation_l5l05"]
+resource_name = "walk"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlipPivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [8, 9, 10, 11, 12, 13, 14, 15, 8]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_l5l05"]
+_data = {
+&"RESET": SubResource("Animation_lgmik"),
+&"idle": SubResource("Animation_y2r5v"),
+&"walk": SubResource("Animation_l5l05")
+}
+
 [node name="BringerOfDeath" unique_id=1864954513 instance=ExtResource("1_lgmik")]
 
-[node name="MovementBox" parent="." index="0" unique_id=2071017867]
-position = Vector2(35, 41)
-
-[node name="Sprite2D" parent="." index="1" unique_id=1495958942]
+[node name="Sprite2D" parent="FlipPivot" parent_id_path=PackedInt32Array(154655260) index="0" unique_id=1495958942]
 texture = ExtResource("2_y2r5v")
+offset = Vector2(-36, -20)
 hframes = 8
 vframes = 8
 
-[node name="HitBox" parent="HitArea" parent_id_path=PackedInt32Array(1655964951) index="0" unique_id=1028288541]
-position = Vector2(36, 20)
+[node name="AnimationPlayer" parent="FlipPivot" parent_id_path=PackedInt32Array(154655260) index="1" unique_id=460346007]
+libraries/ = SubResource("AnimationLibrary_l5l05")
+
+[node name="MovementBox" parent="." index="1" unique_id=2071017867]
+position = Vector2(0, 20)
