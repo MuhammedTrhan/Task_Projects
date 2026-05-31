@@ -5,25 +5,45 @@ enum State {
 	CHASE
 }
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+@export var speed: float = 150.0
+@export var chase_threshold: float = 250.0
 
+var current_state: State = State.PATROL
+var player: CharacterBody2D = null
 
-func _physics_process(delta: float) -> void:
-	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
+func _ready() -> void:
+	# Find the player node
+	player = get_tree().get_first_node_in_group("player")
 
-	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+func _physics_process(_delta: float) -> void:
+	current_state = state_manager()
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction := Input.get_axis("ui_left", "ui_right")
-	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-
+	match current_state:
+		State.PATROL:
+			handle_patrol(_delta)
+		State.CHASE:
+			handle_chase(_delta)
+	
 	move_and_slide()
+		
+
+func state_manager() -> State:
+	if not player:
+		return State.PATROL
+
+	var distance_to_player = global_position.distance_to(player.global_position)
+
+	if distance_to_player < chase_threshold:
+		return State.CHASE
+	else:
+		return State.PATROL
+
+
+func handle_patrol(_delta: float) -> void:
+	# Placeholder for patrol
+	velocity = Vector2.ZERO
+
+
+func handle_chase(_delta: float) -> void:
+	var direction = global_position.direction_to(player.global_position)
+	velocity = direction * speed

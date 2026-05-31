@@ -48,7 +48,7 @@ animations = [{
 radius = 13.0
 height = 64.0
 
-[node name="Player" type="CharacterBody2D" unique_id=1704028917]
+[node name="Player" type="CharacterBody2D" unique_id=1704028917 groups=["player"]]
 collision_mask = 4
 script = ExtResource("1_cvnsp")
 
