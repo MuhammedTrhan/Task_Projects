@@ -6,6 +6,8 @@ enum State {
 	HIT
 }
 
+signal hit_player
+
 @export var chase_speed: float = 150.0
 @export var patrol_speed: float = 100.0
 @export var chase_threshold: float = 250.0
@@ -19,8 +21,9 @@ var current_point_index: int = 0
 # How close counts as reaching the point
 var arrival_threshold: float = 10.0
 
-var hit_triggered: bool = false
+var player_inside: bool = false
 var hit_finished: bool = false
+var player_hit: bool = false
 
 func _ready() -> void:
 	# Find the player node
@@ -40,6 +43,9 @@ func _physics_process(_delta: float) -> void:
 			handle_chase(_delta)
 		State.HIT:
 			velocity = Vector2.ZERO
+			if player_inside and not player_hit:
+				emit_signal("hit_player")
+				player_hit = true
 
 	move_and_slide()
 
@@ -53,7 +59,7 @@ func state_manager() -> State:
 	var distance_to_player = global_position.distance_to(player.global_position)
 	
 	if current_state == State.PATROL:
-		if hit_triggered:
+		if player_inside:
 			return State.HIT
 		if distance_to_player < chase_threshold:
 			return State.CHASE
@@ -61,7 +67,7 @@ func state_manager() -> State:
 			return current_state
 
 	elif current_state == State.CHASE:
-		if hit_triggered:
+		if player_inside:
 			return State.HIT
 		if distance_to_player >= chase_threshold:
 			return State.PATROL
@@ -71,6 +77,7 @@ func state_manager() -> State:
 	elif current_state == State.HIT:
 		if hit_finished:
 			hit_finished = false
+			player_hit = false
 			if distance_to_player < chase_threshold:
 				return State.CHASE
 			else:
@@ -126,10 +133,10 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 
 
 func _on_hit_area_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player") and not hit_triggered:
-		hit_triggered = true
+	if body.is_in_group("player") and not player_inside:
+		player_inside = true
 
 
 func _on_hit_area_body_exited(body: Node2D) -> void:
-	if body.is_in_group("player") and hit_triggered:
-		hit_triggered = false
+	if body.is_in_group("player") and player_inside:
+		player_inside = false
