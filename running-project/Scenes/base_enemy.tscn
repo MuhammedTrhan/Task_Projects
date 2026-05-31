@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://b1qent8a45g34"]
+
+[ext_resource type="Script" uid="uid://lppeuqubnob" path="res://Scripts/base_enemy.gd" id="1_wsate"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rnv5g"]
+radius = 8.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wsate"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wsate"]
+radius = 107.22873
+
+[node name="BaseEnemy" type="CharacterBody2D" unique_id=1864954513]
+script = ExtResource("1_wsate")
+
+[node name="MovementBox" type="CollisionShape2D" parent="." unique_id=2071017867]
+position = Vector2(0, 9)
+shape = SubResource("CircleShape2D_rnv5g")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1495958942]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=460346007]
+
+[node name="HitArea" type="Area2D" parent="." unique_id=1655964951]
+
+[node name="HitBox" type="CollisionShape2D" parent="HitArea" unique_id=1028288541]
+shape = SubResource("CapsuleShape2D_wsate")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=49370250]
+
+[node name="DetectionBox" type="CollisionShape2D" parent="DetectionArea" unique_id=1257858668]
+position = Vector2(0, 8)
+shape = SubResource("CircleShape2D_wsate")
