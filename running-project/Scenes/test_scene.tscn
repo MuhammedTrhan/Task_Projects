@@ -179,7 +179,7 @@ position = Vector2(890, 340)
 script = ExtResource("7_rdbpf")
 
 [node name="Timer" type="Timer" parent="EnemySpawner" unique_id=2145333248]
-wait_time = 7.0
+wait_time = 5.0
 autostart = true
 
 [connection signal="timeout" from="EnemySpawner/Timer" to="EnemySpawner" method="_on_timer_timeout"]

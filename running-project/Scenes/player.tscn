@@ -6,43 +6,43 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_cvnsp"]
 radius = 9.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_cvnsp"]
-atlas = ExtResource("1_v0iea")
-region = Rect2(0, 0, 100, 64)
+[sub_resource type="Animation" id="Animation_cvnsp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlipPivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6t5aa"]
-atlas = ExtResource("1_v0iea")
-region = Rect2(100, 0, 100, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vgqql"]
-atlas = ExtResource("1_v0iea")
-region = Rect2(200, 0, 100, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fkybt"]
-atlas = ExtResource("1_v0iea")
-region = Rect2(300, 0, 100, 64)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_x3wgy"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cvnsp")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6t5aa")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vgqql")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fkybt")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
+[sub_resource type="Animation" id="Animation_6t5aa"]
+resource_name = "idle"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlipPivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 0]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_v0iea"]
+_data = {
+&"RESET": SubResource("Animation_cvnsp"),
+&"idle": SubResource("Animation_6t5aa")
+}
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6t5aa"]
 radius = 13.0
@@ -56,16 +56,21 @@ script = ExtResource("1_cvnsp")
 position = Vector2(0, 23)
 shape = SubResource("CircleShape2D_cvnsp")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1693926087]
+[node name="FlipPivot" type="Node2D" parent="." unique_id=1206815591]
+
+[node name="Sprite2D" type="Sprite2D" parent="FlipPivot" unique_id=2000220770]
 position = Vector2(0, -2)
-sprite_frames = SubResource("SpriteFrames_x3wgy")
-autoplay = "default"
+texture = ExtResource("1_v0iea")
+hframes = 4
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=318647580]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="FlipPivot" unique_id=318647580]
+root_node = NodePath("../..")
 libraries/ = SubResource("AnimationLibrary_v0iea")
+autoplay = &"idle"
+speed_scale = 0.5
 
-[node name="HitArea" type="Area2D" parent="." unique_id=801583379]
+[node name="HitArea" type="Area2D" parent="FlipPivot" unique_id=801583379]
 collision_mask = 2
 
-[node name="HitBox" type="CollisionShape2D" parent="HitArea" unique_id=503549817]
+[node name="HitBox" type="CollisionShape2D" parent="FlipPivot/HitArea" unique_id=503549817]
 shape = SubResource("CapsuleShape2D_6t5aa")
