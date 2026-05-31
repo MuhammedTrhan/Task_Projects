@@ -142,7 +142,7 @@ func _on_hit_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player") and not player_inside:
 		player_inside = true
 
-
+	
 func _on_hit_area_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player") and player_inside:
 		player_inside = false
