@@ -89,11 +89,15 @@ _data = {
 &"walk": SubResource("Animation_l5l05")
 }
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lgmik"]
+radius = 1.0
+height = 4.0
+
 [node name="BringerOfDeath" unique_id=1864954513 instance=ExtResource("1_lgmik")]
 
 [node name="Sprite2D" parent="FlipPivot" parent_id_path=PackedInt32Array(154655260) index="0" unique_id=1495958942]
 texture = ExtResource("2_y2r5v")
-offset = Vector2(-36, -20)
+offset = Vector2(-36, -43)
 hframes = 8
 vframes = 8
 
@@ -101,11 +105,13 @@ vframes = 8
 libraries/ = SubResource("AnimationLibrary_l5l05")
 
 [node name="HitBox" parent="FlipPivot/HitArea" parent_id_path=PackedInt32Array(1655964951) index="0" unique_id=1028288541]
-position = Vector2(-50, 0)
+position = Vector2(-50, -23)
 rotation = 1.5707964
 
 [node name="MovementBox" parent="." index="1" unique_id=2071017867]
-position = Vector2(0, 20)
+position = Vector2(0, 0)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_lgmik")
 
 [connection signal="animation_finished" from="FlipPivot/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="FlipPivot/HitArea" to="." method="_on_hit_area_body_entered"]

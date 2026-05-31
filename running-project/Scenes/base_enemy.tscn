@@ -7,11 +7,11 @@ radius = 24.0
 height = 98.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rnv5g"]
-radius = 13.0
 
 [node name="BaseEnemy" type="CharacterBody2D" unique_id=1864954513]
 collision_layer = 2
 collision_mask = 4
+motion_mode = 1
 script = ExtResource("1_wsate")
 
 [node name="FlipPivot" type="Node2D" parent="." unique_id=154655260]
@@ -30,3 +30,6 @@ shape = SubResource("CapsuleShape2D_wsate")
 [node name="MovementBox" type="CollisionShape2D" parent="." unique_id=2071017867]
 position = Vector2(0, 9)
 shape = SubResource("CircleShape2D_rnv5g")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1661704760]
+target_desired_distance = 20.0

@@ -25,6 +25,8 @@ var player_inside: bool = false
 var hit_finished: bool = false
 var player_hit: bool = false
 
+@onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
+
 func _ready() -> void:
 	# Find the player node
 	player = get_tree().get_first_node_in_group("player")
@@ -94,8 +96,11 @@ func handle_patrol(_delta: float) -> void:
 		return
 	
 	var target_point = absolute_patrol_points[current_point_index]
+	nav_agent.target_position = target_point
 
-	var direction = global_position.direction_to(target_point)
+	var next_path_position = nav_agent.get_next_path_position()
+
+	var direction = global_position.direction_to(next_path_position)
 	velocity = direction * patrol_speed
 
 	# Check if we've reached the target point
@@ -103,7 +108,14 @@ func handle_patrol(_delta: float) -> void:
 		current_point_index = (current_point_index + 1) % absolute_patrol_points.size()
 	
 func handle_chase(_delta: float) -> void:
-	var direction = global_position.direction_to(player.global_position)
+	# Feed the player's position to the navigation agent
+	nav_agent.target_position = player.global_position
+
+	# Get the instructions from the navigator.
+	var next_path_position = nav_agent.get_next_path_position()
+
+	# Calculate the direction towards the next path position
+	var direction = global_position.direction_to(next_path_position)
 	velocity = direction * chase_speed
 
 
@@ -142,7 +154,7 @@ func _on_hit_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player") and not player_inside:
 		player_inside = true
 
-	
+
 func _on_hit_area_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player") and player_inside:
 		player_inside = false

@@ -182,10 +182,10 @@ height = 64.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1704028917 groups=["player"]]
 collision_mask = 4
+motion_mode = 1
 script = ExtResource("1_cvnsp")
 
 [node name="MovementBox" type="CollisionShape2D" parent="." unique_id=542749096]
-position = Vector2(0, 23)
 shape = SubResource("CircleShape2D_cvnsp")
 
 [node name="FlipPivot" type="Node2D" parent="." unique_id=1206815591]
@@ -193,6 +193,7 @@ shape = SubResource("CircleShape2D_cvnsp")
 [node name="Sprite2D" type="Sprite2D" parent="FlipPivot" unique_id=2000220770]
 position = Vector2(0, -2)
 texture = ExtResource("2_6t5aa")
+offset = Vector2(0, -25)
 hframes = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="FlipPivot" unique_id=318647580]
@@ -201,6 +202,7 @@ libraries/ = SubResource("AnimationLibrary_v0iea")
 speed_scale = 0.5
 
 [node name="HitArea" type="Area2D" parent="FlipPivot" unique_id=801583379]
+position = Vector2(0, -25)
 collision_mask = 2
 
 [node name="HitBox" type="CollisionShape2D" parent="FlipPivot/HitArea" unique_id=503549817]
