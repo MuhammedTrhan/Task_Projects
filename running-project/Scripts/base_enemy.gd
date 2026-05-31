@@ -43,9 +43,9 @@ func _physics_process(_delta: float) -> void:
 			handle_chase(_delta)
 		State.HIT:
 			velocity = Vector2.ZERO
-			if player_inside and not player_hit:
-				emit_signal("hit_player")
-				player_hit = true
+			# if player_inside and not player_hit:
+			# 	emit_signal("hit_player")
+			# 	player_hit = true
 
 	move_and_slide()
 
@@ -124,6 +124,12 @@ func animation_manager() -> void:
 			$FlipPivot.scale.x = 1
 		else:
 			$FlipPivot.scale.x = -1
+
+
+func trigger_atack_damage() -> void:
+	if player_inside and not player_hit:
+		emit_signal("hit_player")
+		player_hit = true
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
