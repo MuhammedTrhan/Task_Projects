@@ -4,7 +4,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wsate"]
 radius = 24.0
-height = 98.0
+height = 104.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rnv5g"]
 
@@ -32,4 +32,4 @@ position = Vector2(0, 9)
 shape = SubResource("CircleShape2D_rnv5g")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1661704760]
-target_desired_distance = 20.0
+target_desired_distance = 30.0

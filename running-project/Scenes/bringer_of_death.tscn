@@ -91,9 +91,11 @@ _data = {
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lgmik"]
 radius = 1.0
-height = 4.0
+height = 6.0
 
 [node name="BringerOfDeath" unique_id=1864954513 instance=ExtResource("1_lgmik")]
+chase_speed = 125.0
+patrol_speed = 75.0
 
 [node name="Sprite2D" parent="FlipPivot" parent_id_path=PackedInt32Array(154655260) index="0" unique_id=1495958942]
 texture = ExtResource("2_y2r5v")
@@ -105,7 +107,7 @@ vframes = 8
 libraries/ = SubResource("AnimationLibrary_l5l05")
 
 [node name="HitBox" parent="FlipPivot/HitArea" parent_id_path=PackedInt32Array(1655964951) index="0" unique_id=1028288541]
-position = Vector2(-50, -23)
+position = Vector2(-48, -23)
 rotation = 1.5707964
 
 [node name="MovementBox" parent="." index="1" unique_id=2071017867]
