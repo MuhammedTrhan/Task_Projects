@@ -11,6 +11,8 @@ signal hit_player
 @export var chase_speed: float = 150.0
 @export var patrol_speed: float = 100.0
 @export var chase_threshold: float = 250.0
+@export var attack_range: float = 30.0
+
 @export var patrol_points: Array[Vector2] = [Vector2(100, 0), Vector2(-100, 0)]
 
 var current_state: State = State.PATROL
@@ -108,6 +110,18 @@ func handle_patrol(_delta: float) -> void:
 		current_point_index = (current_point_index + 1) % absolute_patrol_points.size()
 	
 func handle_chase(_delta: float) -> void:
+	# Check if we can attack the player
+	if player and global_position.distance_to(player.global_position) < attack_range:
+		velocity = Vector2.ZERO
+
+		# even if it is close enough, force the enemy to face the player
+		if player.global_position.x < global_position.x:
+			$FlipPivot.scale.x = 1
+		else:
+			$FlipPivot.scale.x = -1
+			
+		return
+	
 	# Feed the player's position to the navigation agent
 	nav_agent.target_position = player.global_position
 
