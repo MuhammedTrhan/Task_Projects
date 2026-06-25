@@ -6,6 +6,8 @@
 size = Vector2(371, 368)
 
 [node name="Box" type="RigidBody2D" unique_id=1455768306]
+collision_layer = 8
+collision_mask = 15
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2133238814]
 texture = ExtResource("1_xkb4e")
