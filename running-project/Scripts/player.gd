@@ -2,8 +2,10 @@ extends CharacterBody2D
 
 
 const MAX_SPEED = 150.0
-const ACCELERATION = 800.0 # How fast the player speeds up (pixels per second squared)
-const FRICTION = 600.0 # How fast the player slides to a stop when letting go
+# How fast the player speeds up (pixels per second squared)
+const ACCELERATION = 800.0
+# How fast the player slides to a stop when letting go
+const FRICTION = 600.0
 
 var player_hit: bool = false
 var hit_finished: bool = true

@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://g871tdu5k725"]
+
+[ext_resource type="Texture2D" uid="uid://fffanx735rpe" path="res://Assets/WoodSet/box/1.png" id="1_xkb4e"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ego7h"]
+size = Vector2(371, 368)
+
+[node name="Box" type="RigidBody2D" unique_id=1455768306]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2133238814]
+texture = ExtResource("1_xkb4e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=949735065]
+position = Vector2(0.5, 72)
+shape = SubResource("RectangleShape2D_ego7h")
