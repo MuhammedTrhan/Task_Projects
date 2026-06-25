@@ -67,6 +67,7 @@ down={
 2d_physics/layer_2="Enemies"
 2d_physics/layer_3="Walls"
 2d_physics/layer_4="Pushables"
+2d_physics/layer_9="Player HitBox"
 
 [physics]
 
