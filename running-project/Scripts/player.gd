@@ -1,7 +1,9 @@
 extends CharacterBody2D
 
 
-const SPEED = 150.0
+const MAX_SPEED = 150.0
+const ACCELERATION = 800.0 # How fast the player speeds up (pixels per second squared)
+const FRICTION = 600.0 # How fast the player slides to a stop when letting go
 
 var player_hit: bool = false
 var hit_finished: bool = true
@@ -11,13 +13,16 @@ func _physics_process(_delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction := Input.get_vector("left", "right", "up", "down")
+
 	if direction != Vector2.ZERO:
 		# move_and_slide is already framerate independent, so we don't need to use delta here.
-		velocity = direction * SPEED
+		var target_velocity = direction * MAX_SPEED
+		velocity = velocity.move_toward(target_velocity, ACCELERATION * _delta)
 	else:
 		# Instead of instantly stopping, smoothly slow down the player independent of framerate.
-		velocity = velocity.move_toward(Vector2.ZERO, SPEED * 10 * _delta)
+		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * _delta)
 	
+	# Stun the player if they are hit by an enemy.
 	if not hit_finished:
 		velocity = Vector2.ZERO
 
