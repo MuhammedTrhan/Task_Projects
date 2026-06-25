@@ -6,6 +6,10 @@
 radius = 24.0
 height = 104.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kjpuc"]
+radius = 14.0
+height = 56.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_rnv5g"]
 
 [node name="BaseEnemy" type="CharacterBody2D" unique_id=1864954513]
@@ -21,11 +25,18 @@ script = ExtResource("1_wsate")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="FlipPivot" unique_id=460346007]
 root_node = NodePath("../..")
 
-[node name="HitArea" type="Area2D" parent="FlipPivot" unique_id=1655964951]
+[node name="DamageArea" type="Area2D" parent="FlipPivot" unique_id=1655964951]
 collision_layer = 2
 
-[node name="HitBox" type="CollisionShape2D" parent="FlipPivot/HitArea" unique_id=1028288541]
+[node name="DamageBox" type="CollisionShape2D" parent="FlipPivot/DamageArea" unique_id=1028288541]
 shape = SubResource("CapsuleShape2D_wsate")
+
+[node name="HitArea" type="Area2D" parent="FlipPivot" unique_id=1026207824]
+collision_layer = 2
+collision_mask = 9
+
+[node name="HitBox" type="CollisionShape2D" parent="FlipPivot/HitArea" unique_id=2106256572]
+shape = SubResource("CapsuleShape2D_kjpuc")
 
 [node name="MovementBox" type="CollisionShape2D" parent="." unique_id=2071017867]
 position = Vector2(0, 9)

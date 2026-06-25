@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://e28l5j2svhea" path="res://Scenes/coin.tscn" id="2_ak5v8"]
 [ext_resource type="Script" uid="uid://j13s6stcdiio" path="res://Scripts/game_manager.gd" id="4_hb2xm"]
 [ext_resource type="PackedScene" uid="uid://cn5ltnr2e01vu" path="res://Scenes/player.tscn" id="5_ak5v8"]
+[ext_resource type="PackedScene" uid="uid://g871tdu5k725" path="res://Scenes/box.tscn" id="7_oho3u"]
 [ext_resource type="Script" uid="uid://d1e8qcbuh6240" path="res://Scripts/enemy_spawner.gd" id="7_rdbpf"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_x033f"]
@@ -190,10 +191,6 @@ position = Vector2(111, 507)
 [node name="Coin3" parent="." unique_id=536201473 instance=ExtResource("2_ak5v8")]
 position = Vector2(1080, 323)
 
-[node name="Player" parent="." unique_id=1704028917 instance=ExtResource("5_ak5v8")]
-position = Vector2(406, 152)
-scale = Vector2(0.5, 0.5)
-
 [node name="EnemySpawner" type="Node2D" parent="." unique_id=1346395359]
 position = Vector2(890, 340)
 script = ExtResource("7_rdbpf")
@@ -201,5 +198,15 @@ script = ExtResource("7_rdbpf")
 [node name="Timer" type="Timer" parent="EnemySpawner" unique_id=2145333248]
 wait_time = 5.0
 autostart = true
+
+[node name="Box" parent="." unique_id=1455768306 instance=ExtResource("7_oho3u")]
+position = Vector2(774, 305)
+
+[node name="Box2" parent="." unique_id=314095692 instance=ExtResource("7_oho3u")]
+position = Vector2(403, 187)
+
+[node name="Player" parent="." unique_id=1704028917 instance=ExtResource("5_ak5v8")]
+position = Vector2(406, 152)
+scale = Vector2(0.5, 0.5)
 
 [connection signal="timeout" from="EnemySpawner/Timer" to="EnemySpawner" method="_on_timer_timeout"]
