@@ -4,7 +4,8 @@ enum State {
 	PATROL,
 	CHASE,
 	ATTACK,
-	HURT
+	HURT,
+	DEAD
 }
 
 signal hurt_player
@@ -56,6 +57,8 @@ func _physics_process(_delta: float) -> void:
 			velocity = Vector2.ZERO
 		State.HURT:
 			velocity = Vector2.ZERO
+		State.DEAD:
+			velocity = Vector2.ZERO
 
 	move_and_slide()
 
@@ -67,15 +70,22 @@ func state_manager() -> State:
 		return State.PATROL
 
 	var distance_to_player = global_position.distance_to(player.global_position)
+
+	# ıf the hp is 0 or less, the enemy is dead and should not do anything else.
+	if current_hp <= 0:
+		return State.DEAD
 	
 	if current_state == State.PATROL:
 		if player_inside and hurt_finished:
 			return State.ATTACK
+		
 		if distance_to_player < chase_threshold:
 			return State.CHASE
+		
 		if enemy_hurt:
 			enemy_hurt = false
 			return State.HURT
+		
 		else:
 			return current_state
 
@@ -161,6 +171,10 @@ func handle_chase(_delta: float) -> void:
 
 
 func animation_manager() -> void:
+	if current_state == State.DEAD:
+		$FlipPivot/AnimationPlayer.play("die")
+		return
+
 	if current_state == State.HURT:
 		$FlipPivot/AnimationPlayer.play("hurt")
 		return
@@ -190,6 +204,10 @@ func trigger_atack_damage() -> void:
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	# If the die animation finishes, remove the enemy from the scene
+	if anim_name == "die":
+		queue_free()
+	
 	if anim_name == "hurt":
 		hurt_finished = true
 	
@@ -218,6 +236,3 @@ func take_damage(amount: float) -> void:
 
 	# reset the attack state
 	attack_finished = false
-    
-	if current_hp <= 0:
-		queue_free() # Enemy dies

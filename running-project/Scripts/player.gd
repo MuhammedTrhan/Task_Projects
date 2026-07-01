@@ -13,6 +13,7 @@ var dash_velocity := Vector2.ZERO
 var player_hurt: bool = false
 var hurt_finished: bool = true
 var is_invincible: bool = false
+var is_dead: bool = false
 
 var is_attacking: bool = false
 
@@ -61,6 +62,10 @@ func execute_attack() -> void:
 	is_attacking = true
 
 func animation_manager() -> void:
+	if is_dead:
+		$FlipPivot/AnimationPlayer.play("die")
+		return
+	
 	if player_hurt:
 		player_hurt = false
 		$FlipPivot/AnimationPlayer.play("hurt")
@@ -110,8 +115,14 @@ func _on_hurt_player() -> void:
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	if anim_name == "hurt":
+	if anim_name == "die":
+		is_dead = false
+		# Trigger your game over sequence or reload scene
+		get_tree().reload_current_scene()
+
+	elif anim_name == "hurt":
 		hurt_finished = true
+	
 	elif anim_name == "attack":
 		is_attacking = false
 	
@@ -134,8 +145,7 @@ func take_damage(amount: float) -> void:
 		die()
 	
 func die() -> void:
-	# Trigger your game over sequence or reload scene
-	get_tree().reload_current_scene()
+	is_dead = true
 
 
 func _on_damage_area_area_entered(area: Area2D) -> void:
