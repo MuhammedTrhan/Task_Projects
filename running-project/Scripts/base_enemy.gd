@@ -3,7 +3,8 @@ extends CharacterBody2D
 enum State {
 	PATROL,
 	CHASE,
-	ATTACK
+	ATTACK,
+	HURT
 }
 
 signal hurt_player
@@ -29,6 +30,9 @@ var arrival_threshold: float = 10.0
 var player_inside: bool = false
 var attack_finished: bool = false
 var player_hurt: bool = false
+var hurt_finished: bool = true
+
+var enemy_hurt: bool = false
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 
@@ -50,6 +54,8 @@ func _physics_process(_delta: float) -> void:
 			handle_chase(_delta)
 		State.ATTACK:
 			velocity = Vector2.ZERO
+		State.HURT:
+			velocity = Vector2.ZERO
 
 	move_and_slide()
 
@@ -63,22 +69,32 @@ func state_manager() -> State:
 	var distance_to_player = global_position.distance_to(player.global_position)
 	
 	if current_state == State.PATROL:
-		if player_inside:
+		if player_inside and hurt_finished:
 			return State.ATTACK
 		if distance_to_player < chase_threshold:
 			return State.CHASE
+		if enemy_hurt:
+			enemy_hurt = false
+			return State.HURT
 		else:
 			return current_state
 
 	elif current_state == State.CHASE:
-		if player_inside:
+		if player_inside and hurt_finished:
 			return State.ATTACK
 		if distance_to_player >= chase_threshold:
 			return State.PATROL
+		if enemy_hurt:
+			enemy_hurt = false
+			return State.HURT
 		else:
 			return current_state
 
 	elif current_state == State.ATTACK:
+		if enemy_hurt:
+			enemy_hurt = false
+			return State.HURT
+		
 		if attack_finished:
 			attack_finished = false
 			player_hurt = false
@@ -88,6 +104,17 @@ func state_manager() -> State:
 				return State.PATROL
 		else:
 			return current_state
+		
+	elif current_state == State.HURT:
+		# Stay in the hurt state until the animation finishes
+		if not hurt_finished:
+			return current_state
+		
+		if distance_to_player < chase_threshold:
+			return State.CHASE
+		else:
+			return State.PATROL
+		# No state change to attack since the hurt shuld overwrite the attack.
 	else:
 		return current_state
 
@@ -134,6 +161,14 @@ func handle_chase(_delta: float) -> void:
 
 
 func animation_manager() -> void:
+	# If the hurt animation is still playing, DO NOTHING.
+	if not hurt_finished:
+		return
+	
+	if current_state == State.HURT:
+		$FlipPivot/AnimationPlayer.play("hurt")
+		return
+
 	if current_state == State.ATTACK:
 		$FlipPivot/AnimationPlayer.play("attack")
 		return
@@ -151,7 +186,7 @@ func animation_manager() -> void:
 		else:
 			$FlipPivot.scale.x = -1
 
-
+# This function is called by animation player when the attack animation reaches the frame where damage should be applied.
 func trigger_atack_damage() -> void:
 	if player_inside and not player_hurt:
 		emit_signal("hurt_player")
@@ -159,8 +194,11 @@ func trigger_atack_damage() -> void:
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "hurt":
+		hurt_finished = true
+	
 	# After the attack animation finishes, return to patrolling
-	if anim_name == "attack":
+	elif anim_name == "attack":
 		attack_finished = true
 
 
@@ -172,16 +210,18 @@ func _on_damage_area_area_entered(area: Area2D) -> void:
 func _on_damage_area_area_exited(area: Area2D) -> void:
 	if area.is_in_group("player") and player_inside:
 		player_inside = false
+	
 
-
+# This function is called by the player when the player attacks the enemy.
 func take_damage(amount: float) -> void:
 	current_hp -= amount
 	print("Enemy HP remaining: ", current_hp)
-    
-	# Visible feedback flash
-	var tween = create_tween()
-	tween.tween_property($FlipPivot, "modulate", Color(5, 0.5, 0.5), 0.1)
-	tween.tween_property($FlipPivot, "modulate", Color(1, 1, 1), 0.1)
+
+	enemy_hurt = true
+	hurt_finished = false
+
+	# reset the attack state
+	attack_finished = false
     
 	if current_hp <= 0:
 		queue_free() # Enemy dies

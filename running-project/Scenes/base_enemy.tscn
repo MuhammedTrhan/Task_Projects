@@ -1,10 +1,11 @@
 [gd_scene format=3 uid="uid://b1qent8a45g34"]
 
 [ext_resource type="Script" uid="uid://lppeuqubnob" path="res://Scripts/base_enemy.gd" id="1_wsate"]
+[ext_resource type="Script" uid="uid://c88f1t5p1m4r2" path="res://Scripts/damageable.gd" id="2_kjpuc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wsate"]
 radius = 24.0
-height = 104.0
+height = 72.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kjpuc"]
 radius = 14.0
@@ -27,6 +28,7 @@ root_node = NodePath("../..")
 
 [node name="DamageArea" type="Area2D" parent="FlipPivot" unique_id=1655964951]
 collision_layer = 2
+script = ExtResource("2_kjpuc")
 
 [node name="DamageBox" type="CollisionShape2D" parent="FlipPivot/DamageArea" unique_id=1028288541]
 shape = SubResource("CapsuleShape2D_wsate")
