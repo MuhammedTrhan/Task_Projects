@@ -94,6 +94,7 @@ radius = 1.0
 height = 6.0
 
 [node name="BringerOfDeath" unique_id=1864954513 instance=ExtResource("1_lgmik")]
+collision_mask = 6
 chase_speed = 125.0
 patrol_speed = 75.0
 
