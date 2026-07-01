@@ -95,6 +95,10 @@ func _on_hurt_player() -> void:
 	is_attacking = false
 
 	take_damage(10) # Example damage value
+
+	# If the hit killed the player, stop right here!
+	if current_hp <= 0:
+		return
 	
 	hurt_finished = false
 	player_hurt = true
