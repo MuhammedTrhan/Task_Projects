@@ -13,6 +13,7 @@ const FRICTION = 600.0
 # DASH MECHANIC VARIABLES
 const DASH_IMPULSE = 500.0
 var dash_velocity := Vector2.ZERO
+var is_dashing: bool = false
 
 var player_hurt: bool = false
 var hurt_finished: bool = true
@@ -77,6 +78,8 @@ func execute_attack() -> void:
 	is_attacking = true
 
 func execute_dash(dash_direction: Vector2) -> Vector2:
+	is_dashing = true
+
 	if dash_direction == Vector2.ZERO:
 		# If standing still, use the direction the sprite container is facing
 		dash_direction = Vector2($FlipPivot.scale.x, 0)
@@ -112,6 +115,10 @@ func animation_manager() -> void:
 	# If the shield is up and active, play idle
 	if is_parrying:
 		$FlipPivot/AnimationPlayer.play("parry_idle")
+		return
+	
+	if is_dashing:
+		$FlipPivot/AnimationPlayer.play("dash")
 		return
 	
 	if is_attacking:
@@ -163,6 +170,9 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 
 	elif anim_name == "hurt":
 		hurt_finished = true
+	
+	elif anim_name == "dash":
+		is_dashing = false
 	
 	elif anim_name == "attack":
 		is_attacking = false

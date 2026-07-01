@@ -215,6 +215,7 @@ offset_top = 12.0
 offset_right = 143.0
 offset_bottom = 35.0
 text = "Dash with L-Shift
-Press 'F' for attack"
+Press 'F' for attack
+Press 'Space' to parry"
 
 [connection signal="timeout" from="EnemySpawner/Timer" to="EnemySpawner" method="_on_timer_timeout"]
