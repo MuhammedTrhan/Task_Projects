@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+@export var max_hp: float = 100.0
+@export var parry_cooldown: float = 1.0
+
 const MAX_SPEED = 150.0
 # How fast the player speeds up (pixels per second squared)
 const ACCELERATION = 800.0
@@ -16,9 +19,10 @@ var is_invincible: bool = false
 var is_dead: bool = false
 
 var is_attacking: bool = false
+var is_parrying: bool = false
 
-@export var max_hp: float = 100.0
 var current_hp: float = max_hp
+var cur_parry_cooldown: float = 1.0
 
 func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("attack") and not is_attacking:
@@ -54,6 +58,9 @@ func handle_movement(_delta: float) -> void:
 			
 		# Overwrite current velocity with the massive explosion of speed!
 		velocity = dash_direction.normalized() * DASH_IMPULSE
+	
+	if Input.is_action_just_pressed("parry") and not is_attacking and hurt_finished:
+		execute_parry()
 
 	move_and_slide()
 
@@ -93,7 +100,7 @@ func animation_manager() -> void:
 			$FlipPivot.scale.x = 1
 
 func _on_hurt_player() -> void:
-	if is_invincible:
+	if is_invincible or is_parrying:
 		return
 
 	# Reset attack state so it doesn't get stuck if interrupted
@@ -146,6 +153,14 @@ func take_damage(amount: float) -> void:
 	
 func die() -> void:
 	is_dead = true
+
+func execute_parry() -> void:
+	is_parrying = true
+	
+	# The Parry Window: 0.3 seconds is standard for action games.
+	get_tree().create_timer(0.3).timeout.connect(func():
+		is_parrying = false
+	)
 
 
 func _on_damage_area_area_entered(area: Area2D) -> void:
