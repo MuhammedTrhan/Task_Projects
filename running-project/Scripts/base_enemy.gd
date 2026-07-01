@@ -12,8 +12,11 @@ signal hurt_player
 @export var patrol_speed: float = 100.0
 @export var chase_threshold: float = 250.0
 @export var attack_range: float = 30.0
+@export var max_hp: float = 30.0
 
 @export var patrol_points: Array[Vector2] = [Vector2(100, 0), Vector2(-100, 0)]
+
+var current_hp: float = max_hp
 
 var current_state: State = State.PATROL
 var player: CharacterBody2D = null
@@ -169,3 +172,16 @@ func _on_damage_area_area_entered(area: Area2D) -> void:
 func _on_damage_area_area_exited(area: Area2D) -> void:
 	if area.is_in_group("player") and player_inside:
 		player_inside = false
+
+
+func take_damage(amount: float) -> void:
+	current_hp -= amount
+	print("Enemy HP remaining: ", current_hp)
+    
+	# Visible feedback flash
+	var tween = create_tween()
+	tween.tween_property($FlipPivot, "modulate", Color(5, 0.5, 0.5), 0.1)
+	tween.tween_property($FlipPivot, "modulate", Color(1, 1, 1), 0.1)
+    
+	if current_hp <= 0:
+		queue_free() # Enemy dies
