@@ -3,10 +3,10 @@ extends CharacterBody2D
 enum State {
 	PATROL,
 	CHASE,
-	HIT
+	ATTACK
 }
 
-signal hit_player
+signal hurt_player
 
 @export var chase_speed: float = 150.0
 @export var patrol_speed: float = 100.0
@@ -24,8 +24,8 @@ var current_point_index: int = 0
 var arrival_threshold: float = 10.0
 
 var player_inside: bool = false
-var hit_finished: bool = false
-var player_hit: bool = false
+var attack_finished: bool = false
+var player_hurt: bool = false
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 
@@ -45,11 +45,8 @@ func _physics_process(_delta: float) -> void:
 			handle_patrol(_delta)
 		State.CHASE:
 			handle_chase(_delta)
-		State.HIT:
+		State.ATTACK:
 			velocity = Vector2.ZERO
-			# if player_inside and not player_hit:
-			# 	emit_signal("hit_player")
-			# 	player_hit = true
 
 	move_and_slide()
 
@@ -64,7 +61,7 @@ func state_manager() -> State:
 	
 	if current_state == State.PATROL:
 		if player_inside:
-			return State.HIT
+			return State.ATTACK
 		if distance_to_player < chase_threshold:
 			return State.CHASE
 		else:
@@ -72,16 +69,16 @@ func state_manager() -> State:
 
 	elif current_state == State.CHASE:
 		if player_inside:
-			return State.HIT
+			return State.ATTACK
 		if distance_to_player >= chase_threshold:
 			return State.PATROL
 		else:
 			return current_state
 
-	elif current_state == State.HIT:
-		if hit_finished:
-			hit_finished = false
-			player_hit = false
+	elif current_state == State.ATTACK:
+		if attack_finished:
+			attack_finished = false
+			player_hurt = false
 			if distance_to_player < chase_threshold:
 				return State.CHASE
 			else:
@@ -134,7 +131,7 @@ func handle_chase(_delta: float) -> void:
 
 
 func animation_manager() -> void:
-	if current_state == State.HIT:
+	if current_state == State.ATTACK:
 		$FlipPivot/AnimationPlayer.play("attack")
 		return
 	
@@ -153,15 +150,15 @@ func animation_manager() -> void:
 
 
 func trigger_atack_damage() -> void:
-	if player_inside and not player_hit:
-		emit_signal("hit_player")
-		player_hit = true
+	if player_inside and not player_hurt:
+		emit_signal("hurt_player")
+		player_hurt = true
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	# After the attack animation finishes, return to patrolling
 	if anim_name == "attack":
-		hit_finished = true
+		attack_finished = true
 
 
 func _on_damage_area_area_entered(area: Area2D) -> void:

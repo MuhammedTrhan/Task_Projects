@@ -11,8 +11,8 @@ const FRICTION = 600.0
 const DASH_IMPULSE = 500.0
 var dash_velocity := Vector2.ZERO
 
-var player_hit: bool = false
-var hit_finished: bool = true
+var player_hurt: bool = false
+var hurt_finished: bool = true
 
 @export var max_hp: float = 100.0
 var current_hp: float = max_hp
@@ -41,8 +41,8 @@ func _physics_process(_delta: float) -> void:
 		# Overwrite current velocity with the massive explosion of speed!
 		velocity = dash_direction.normalized() * DASH_IMPULSE
 	
-	# Stun the player if they are hit by an enemy.
-	if not hit_finished:
+	# Stun the player if they are hurt by an enemy.
+	if not hurt_finished:
 		velocity = Vector2.ZERO
 
 	move_and_slide()
@@ -51,13 +51,13 @@ func _physics_process(_delta: float) -> void:
 
 
 func animation_manager() -> void:
-	if player_hit:
-		player_hit = false
-		$FlipPivot/AnimationPlayer.play("hit")
+	if player_hurt:
+		player_hurt = false
+		$FlipPivot/AnimationPlayer.play("hurt")
 		return
 	
-	# If the hit animation is still playing, DO NOTHING.
-	if not hit_finished:
+	# If the hurt animation is still playing, DO NOTHING.
+	if not hurt_finished:
 		return
 
 	# play the walk animation if we're moving, otherwise play idle
@@ -73,16 +73,16 @@ func animation_manager() -> void:
 		else:
 			$FlipPivot.scale.x = 1
 
-func _on_enemy_hit_player() -> void:
+func _on_hurt_player() -> void:
 	take_damage(10) # Example damage value
 	
-	hit_finished = false
-	player_hit = true
+	hurt_finished = false
+	player_hurt = true
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	if anim_name == "hit":
-		hit_finished = true
+	if anim_name == "hurt":
+		hurt_finished = true
 	
 
 func take_damage(amount: float) -> void:

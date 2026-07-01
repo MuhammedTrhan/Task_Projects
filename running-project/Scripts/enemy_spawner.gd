@@ -28,9 +28,9 @@ func _on_timer_timeout() -> void:
 		] as Array[Vector2]
 
 	if player:
-		# Connect the enemy's hit signal to a function that damages the player
-		if new_enemy.has_signal("hit_player") and player.has_method("_on_enemy_hit_player"):
-			new_enemy.hit_player.connect(player._on_enemy_hit_player)
+		# Connect the enemy's hurt signal to a function that damages the player
+		if new_enemy.has_signal("hurt_player") and player.has_method("_on_hurt_player"):
+			new_enemy.hurt_player.connect(player._on_hurt_player)
 
 	# attach it directly to the Main world node
 	get_parent().add_child.call_deferred(new_enemy)

@@ -89,7 +89,7 @@ tracks/2/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_vgqql"]
-resource_name = "hit"
+resource_name = "hurt"
 length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -213,7 +213,7 @@ tracks/2/keys = {
 _data = {
 &"RESET": SubResource("Animation_cvnsp"),
 &"attack": SubResource("Animation_x3wgy"),
-&"hit": SubResource("Animation_vgqql"),
+&"hurt": SubResource("Animation_vgqql"),
 &"idle": SubResource("Animation_6t5aa"),
 &"walk": SubResource("Animation_fkybt")
 }
