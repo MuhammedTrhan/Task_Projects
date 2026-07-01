@@ -14,6 +14,8 @@ var dash_velocity := Vector2.ZERO
 var player_hit: bool = false
 var hit_finished: bool = true
 
+@export var max_hp: float = 100.0
+var current_hp: float = max_hp
 
 func _physics_process(_delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
@@ -72,6 +74,8 @@ func animation_manager() -> void:
 			$FlipPivot.scale.x = 1
 
 func _on_enemy_hit_player() -> void:
+	take_damage(10) # Example damage value
+	
 	hit_finished = false
 	player_hit = true
 
@@ -79,3 +83,20 @@ func _on_enemy_hit_player() -> void:
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "hit":
 		hit_finished = true
+	
+
+func take_damage(amount: float) -> void:
+	current_hp -= amount
+	print("Player HP remaining: ", current_hp)
+    
+	# Visible feedback (e.g., flash red momentarily)
+	var tween = create_tween()
+	tween.tween_property($FlipPivot, "modulate", Color(5, 0.5, 0.5), 0.1)
+	tween.tween_property($FlipPivot, "modulate", Color(1, 1, 1), 0.1)
+    
+	if current_hp <= 0:
+		die()
+	
+func die() -> void:
+	# Trigger your game over sequence or reload scene
+	get_tree().reload_current_scene()
