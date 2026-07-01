@@ -161,10 +161,6 @@ func handle_chase(_delta: float) -> void:
 
 
 func animation_manager() -> void:
-	# If the hurt animation is still playing, DO NOTHING.
-	if not hurt_finished:
-		return
-	
 	if current_state == State.HURT:
 		$FlipPivot/AnimationPlayer.play("hurt")
 		return
