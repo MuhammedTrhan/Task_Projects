@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @export var max_hp: float = 100.0
 @export var parry_cooldown: float = 1.0
+@export var parry_speed: float = 50.0
 
 const MAX_SPEED = 150.0
 # How fast the player speeds up (pixels per second squared)
@@ -20,17 +21,26 @@ var is_dead: bool = false
 
 var is_attacking: bool = false
 var is_parrying: bool = false
+var is_parry_starting: bool = false
 
 var current_hp: float = max_hp
-var cur_parry_cooldown: float = 1.0
+var cur_parry_cooldown: float = 0.0
 
 func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("attack") and not is_attacking:
 		execute_attack()
 		print("Attack triggered!")
+		
+	if (Input.is_action_just_pressed("parry") and not is_attacking and hurt_finished
+		and not is_parry_starting and not is_parrying and cur_parry_cooldown <= 0):
+			execute_parry()
+
 	
 	if hurt_finished and not is_attacking:
 		handle_movement(_delta)
+	
+	if cur_parry_cooldown > 0:
+		cur_parry_cooldown -= _delta
 
 	animation_manager()
 
@@ -41,8 +51,15 @@ func handle_movement(_delta: float) -> void:
 	var direction := Input.get_vector("left", "right", "up", "down")
 
 	if direction != Vector2.ZERO:
+		var target_velocity: Vector2
 		# move_and_slide is already framerate independent, so we don't need to use delta here.
-		var target_velocity = direction * MAX_SPEED
+		if is_parrying or is_parry_starting:
+			# If parrying, move at a reduced speed
+			target_velocity = direction * parry_speed
+		else:
+			# Normal movement
+			target_velocity = direction * MAX_SPEED
+		
 		velocity = velocity.move_toward(target_velocity, ACCELERATION * _delta)
 	else:
 		# Instead of instantly stopping, smoothly slow down the player independent of framerate.
@@ -50,23 +67,28 @@ func handle_movement(_delta: float) -> void:
 	
 	# 2. Listen for the Dash Trigger (Left Shift)
 	if Input.is_action_just_pressed("dash"):
-		# Determine dash direction: use current movement direction, or default forward
-		var dash_direction = direction
-		if dash_direction == Vector2.ZERO:
-			# If standing still, use the direction the sprite container is facing
-			dash_direction = Vector2($FlipPivot.scale.x, 0)
-			
 		# Overwrite current velocity with the massive explosion of speed!
-		velocity = dash_direction.normalized() * DASH_IMPULSE
-	
-	if Input.is_action_just_pressed("parry") and not is_attacking and hurt_finished:
-		execute_parry()
+		velocity = execute_dash(direction)
 
 	move_and_slide()
 
 
 func execute_attack() -> void:
 	is_attacking = true
+
+func execute_dash(dash_direction: Vector2) -> Vector2:
+	if dash_direction == Vector2.ZERO:
+		# If standing still, use the direction the sprite container is facing
+		dash_direction = Vector2($FlipPivot.scale.x, 0)
+		
+	# Apply the dash impulse in the direction of movement
+	dash_velocity = dash_direction.normalized() * DASH_IMPULSE
+
+	return dash_velocity
+
+func execute_parry() -> void:
+	is_parry_starting = true
+	
 
 func animation_manager() -> void:
 	if is_dead:
@@ -80,6 +102,16 @@ func animation_manager() -> void:
 	
 	# If the hurt animation is still playing, DO NOTHING.
 	if not hurt_finished:
+		return
+	
+	# If the shield is rising, play startup
+	if is_parry_starting:
+		$FlipPivot/AnimationPlayer.play("parry_start")
+		return
+
+	# If the shield is up and active, play idle
+	if is_parrying:
+		$FlipPivot/AnimationPlayer.play("parry_idle")
 		return
 	
 	if is_attacking:
@@ -103,8 +135,10 @@ func _on_hurt_player() -> void:
 	if is_invincible or is_parrying:
 		return
 
-	# Reset attack state so it doesn't get stuck if interrupted
+	# Reset player states so it doesn't get stuck if interrupted
 	is_attacking = false
+	is_parry_starting = false
+	is_parrying = false
 
 	take_damage(10) # Example damage value
 
@@ -133,6 +167,18 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	elif anim_name == "attack":
 		is_attacking = false
 	
+	# PARRY LOGIC:
+	elif anim_name == "parry_start":
+		# The wind-up is over. Turn off the startup state...
+		is_parry_starting = false
+		# ...and immediately turn ON the mechanical parry window!
+		is_parrying = true
+
+	elif anim_name == "parry_idle":
+		# The active parry animation finished. The parry is over.
+		is_parrying = false
+		cur_parry_cooldown = parry_cooldown
+	
 
 func take_damage(amount: float) -> void:
 	current_hp -= amount
@@ -153,14 +199,6 @@ func take_damage(amount: float) -> void:
 	
 func die() -> void:
 	is_dead = true
-
-func execute_parry() -> void:
-	is_parrying = true
-	
-	# The Parry Window: 0.3 seconds is standard for action games.
-	get_tree().create_timer(0.3).timeout.connect(func():
-		is_parrying = false
-	)
 
 
 func _on_damage_area_area_entered(area: Area2D) -> void:
