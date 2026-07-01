@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @export var max_hp: float = 100.0
 @export var parry_cooldown: float = 1.0
+@export var dash_cooldown: float = 1.0
 @export var parry_speed: float = 50.0
 
 const MAX_SPEED = 150.0
@@ -26,6 +27,8 @@ var is_parry_starting: bool = false
 
 var current_hp: float = max_hp
 var cur_parry_cooldown: float = 0.0
+var cur_dash_cooldown: float = 0.0
+
 
 func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("attack") and not is_attacking:
@@ -42,6 +45,9 @@ func _physics_process(_delta: float) -> void:
 	
 	if cur_parry_cooldown > 0:
 		cur_parry_cooldown -= _delta
+
+	if cur_dash_cooldown > 0:
+		cur_dash_cooldown -= _delta
 
 	animation_manager()
 
@@ -67,9 +73,10 @@ func handle_movement(_delta: float) -> void:
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * _delta)
 	
 	# 2. Listen for the Dash Trigger (Left Shift)
-	if Input.is_action_just_pressed("dash"):
-		# Overwrite current velocity with the massive explosion of speed!
-		velocity = execute_dash(direction)
+	if (Input.is_action_just_pressed("dash") and not is_dashing and not is_parrying
+		and not is_parry_starting and cur_dash_cooldown <= 0):
+			# Overwrite current velocity with the massive explosion of speed!
+			velocity = execute_dash(direction)
 
 	move_and_slide()
 
@@ -183,6 +190,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 
 	elif anim_name == "dash":
 		is_dashing = false
+		cur_dash_cooldown = dash_cooldown
 	
 	elif anim_name == "attack":
 		is_attacking = false
