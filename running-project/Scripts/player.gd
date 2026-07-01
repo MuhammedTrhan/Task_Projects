@@ -7,6 +7,10 @@ const ACCELERATION = 800.0
 # How fast the player slides to a stop when letting go
 const FRICTION = 600.0
 
+# DASH MECHANIC VARIABLES
+const DASH_IMPULSE = 500.0
+var dash_velocity := Vector2.ZERO
+
 var player_hit: bool = false
 var hit_finished: bool = true
 
@@ -23,6 +27,17 @@ func _physics_process(_delta: float) -> void:
 	else:
 		# Instead of instantly stopping, smoothly slow down the player independent of framerate.
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * _delta)
+	
+	# 2. Listen for the Dash Trigger (Left Shift)
+	if Input.is_action_just_pressed("dash"):
+		# Determine dash direction: use current movement direction, or default forward
+		var dash_direction = direction
+		if dash_direction == Vector2.ZERO:
+			# If standing still, use the direction the sprite container is facing
+			dash_direction = Vector2($FlipPivot.scale.x, 0)
+			
+		# Overwrite current velocity with the massive explosion of speed!
+		velocity = dash_direction.normalized() * DASH_IMPULSE
 	
 	# Stun the player if they are hit by an enemy.
 	if not hit_finished:
