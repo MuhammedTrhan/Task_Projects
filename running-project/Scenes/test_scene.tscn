@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://e28l5j2svhea" path="res://Scenes/coin.tscn" id="2_ak5v8"]
 [ext_resource type="Script" uid="uid://j13s6stcdiio" path="res://Scripts/game_manager.gd" id="4_hb2xm"]
 [ext_resource type="PackedScene" uid="uid://cn5ltnr2e01vu" path="res://Scenes/player.tscn" id="5_ak5v8"]
-[ext_resource type="PackedScene" uid="uid://g871tdu5k725" path="res://Scenes/box.tscn" id="7_oho3u"]
+[ext_resource type="PackedScene" path="res://Scenes/box.tscn" id="7_oho3u"]
 [ext_resource type="Script" uid="uid://d1e8qcbuh6240" path="res://Scripts/enemy_spawner.gd" id="7_rdbpf"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_x033f"]
