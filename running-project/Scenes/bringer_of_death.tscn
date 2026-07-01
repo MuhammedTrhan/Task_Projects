@@ -47,6 +47,22 @@ tracks/1/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_6q6es"]
+resource_name = "hurt"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlipPivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [26, 27, 28]
+}
+
 [sub_resource type="Animation" id="Animation_y2r5v"]
 resource_name = "idle"
 length = 0.8
@@ -85,6 +101,7 @@ tracks/0/keys = {
 _data = {
 &"RESET": SubResource("Animation_lgmik"),
 &"attack": SubResource("Animation_ljq4i"),
+&"hurt": SubResource("Animation_6q6es"),
 &"idle": SubResource("Animation_y2r5v"),
 &"walk": SubResource("Animation_l5l05")
 }
