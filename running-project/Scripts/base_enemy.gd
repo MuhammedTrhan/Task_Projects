@@ -15,10 +15,12 @@ signal hurt_player
 @export var chase_threshold: float = 250.0
 @export var attack_range: float = 30.0
 @export var max_hp: float = 30.0
+@export var attack_cooldown: float = 1.0
 
 @export var patrol_points: Array[Vector2] = [Vector2(100, 0), Vector2(-100, 0)]
 
 var current_hp: float = max_hp
+var current_cooldown: float = 1.0
 
 var current_state: State = State.PATROL
 var player: CharacterBody2D = null
@@ -59,6 +61,9 @@ func _physics_process(_delta: float) -> void:
 			velocity = Vector2.ZERO
 		State.DEAD:
 			velocity = Vector2.ZERO
+		
+	if current_cooldown > 0:
+		current_cooldown -= _delta
 
 	move_and_slide()
 
@@ -71,12 +76,12 @@ func state_manager() -> State:
 
 	var distance_to_player = global_position.distance_to(player.global_position)
 
-	# ıf the hp is 0 or less, the enemy is dead and should not do anything else.
-	if current_hp <= 0:
+	# If the hp is 0 or less, the enemy is dead and should not do anything else.
+	if current_hp <= 0 or current_state == State.DEAD:
 		return State.DEAD
 	
 	if current_state == State.PATROL:
-		if player_inside and hurt_finished:
+		if player_inside and hurt_finished and current_cooldown <= 0:
 			return State.ATTACK
 		
 		if distance_to_player < chase_threshold:
@@ -90,7 +95,7 @@ func state_manager() -> State:
 			return current_state
 
 	elif current_state == State.CHASE:
-		if player_inside and hurt_finished:
+		if player_inside and hurt_finished and current_cooldown <= 0:
 			return State.ATTACK
 		if distance_to_player >= chase_threshold:
 			return State.PATROL
@@ -214,6 +219,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	# After the attack animation finishes, return to patrolling
 	elif anim_name == "attack":
 		attack_finished = true
+		current_cooldown = attack_cooldown
 
 
 func _on_damage_area_area_entered(area: Area2D) -> void:

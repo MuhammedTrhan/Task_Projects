@@ -23,8 +23,8 @@ var current_hp: float = max_hp
 func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("attack") and not is_attacking:
 		execute_attack()
+		print("Attack triggered!")
 	
-
 	if hurt_finished and not is_attacking:
 		handle_movement(_delta)
 
