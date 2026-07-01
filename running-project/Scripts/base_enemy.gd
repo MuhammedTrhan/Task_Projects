@@ -164,11 +164,11 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		hit_finished = true
 
 
-func _on_hit_area_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player") and not player_inside:
+func _on_damage_area_area_entered(area: Area2D) -> void:
+	if area.is_in_group("player") and not player_inside:
 		player_inside = true
 
 
-func _on_hit_area_body_exited(body: Node2D) -> void:
-	if body.is_in_group("player") and player_inside:
+func _on_damage_area_area_exited(area: Area2D) -> void:
+	if area.is_in_group("player") and player_inside:
 		player_inside = false
