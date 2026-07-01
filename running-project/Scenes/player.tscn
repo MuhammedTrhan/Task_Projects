@@ -222,6 +222,10 @@ _data = {
 radius = 13.0
 height = 64.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fkybt"]
+radius = 23.0
+height = 52.0
+
 [node name="Player" type="CharacterBody2D" unique_id=1704028917 groups=["player"]]
 collision_mask = 4
 motion_mode = 1
@@ -250,5 +254,13 @@ collision_mask = 2
 
 [node name="HitBox" type="CollisionShape2D" parent="FlipPivot/HurtArea" unique_id=503549817]
 shape = SubResource("CapsuleShape2D_6t5aa")
+
+[node name="DamageArea" type="Area2D" parent="FlipPivot" unique_id=1448911746]
+collision_layer = 0
+collision_mask = 512
+
+[node name="DamageBox" type="CollisionShape2D" parent="FlipPivot/DamageArea" unique_id=1208394625]
+position = Vector2(27, -25)
+shape = SubResource("CapsuleShape2D_fkybt")
 
 [connection signal="animation_finished" from="FlipPivot/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
