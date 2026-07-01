@@ -156,11 +156,6 @@ func _on_hurt_player() -> void:
 	hurt_finished = false
 	player_hurt = true
 
-	is_invincible = true
-
-	# Create a 1.5-second timer. When it finishes, turn invincibility off
-	get_tree().create_timer(1.5).timeout.connect(func(): is_invincible = false)
-
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "die":
@@ -170,7 +165,22 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 
 	elif anim_name == "hurt":
 		hurt_finished = true
+
+		is_invincible = true
+
+		# Create a 0.5-second timer. When it finishes, turn invincibility off
+		get_tree().create_timer(0.5).timeout.connect(func(): is_invincible = false)
+
+		var Invincibility_tween = create_tween()
+		# Fade to 50% opacity to show I-Frames
+		Invincibility_tween.tween_property($FlipPivot, "modulate", Color(1, 1, 1, 0.5), 0.1)
+
+		# Create another tween that restores full opacity after the 1-second I-Frame timer ends
+		var restore_tween = create_tween()
+		restore_tween.tween_interval(0.5) # Wait for 0.5 second
+		restore_tween.tween_property($FlipPivot, "modulate", Color(1, 1, 1, 1), 0.1) # Back to normal
 	
+
 	elif anim_name == "dash":
 		is_dashing = false
 	
@@ -194,16 +204,10 @@ func take_damage(amount: float) -> void:
 	current_hp -= amount
 	print("Player HP remaining: ", current_hp)
 	
-	# Flash red, then fade to 50% opacity to show I-Frames
+	# Flash red
 	var tween = create_tween()
-	tween.tween_property($FlipPivot, "modulate", Color(5, 0.5, 0.5, 1), 0.1)
-	tween.tween_property($FlipPivot, "modulate", Color(1, 1, 1, 0.5), 0.1) # Semi-transparent
+	tween.tween_property($FlipPivot, "modulate", Color(1, 0, 0, 1), 0.1)
 
-	# Create another tween that restores full opacity after the 1-second I-Frame timer ends
-	var restore_tween = create_tween()
-	restore_tween.tween_interval(1.0) # Wait for 1 second
-	restore_tween.tween_property($FlipPivot, "modulate", Color(1, 1, 1, 1), 0.1) # Back to normal
-	
 	if current_hp <= 0:
 		die()
 	
