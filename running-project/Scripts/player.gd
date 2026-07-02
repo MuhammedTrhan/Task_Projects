@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export var parry_cooldown: float = 1.0
 @export var dash_cooldown: float = 1.0
 @export var parry_speed: float = 50.0
+@export var charge_speed: float = 50.0
 @export var max_charge: float = 1.0 # Maximum seconds the dash can be charged
 
 const MAX_SPEED = 150.0
@@ -68,6 +69,10 @@ func handle_movement(_delta: float) -> void:
 		if is_parrying or is_parry_starting:
 			# If parrying, move at a reduced speed
 			target_velocity = direction * parry_speed
+		
+		elif is_charging_dash:
+			# If charging dash, move at a reduced speed
+			target_velocity = direction * charge_speed
 
 		elif is_dashing:
 			# Apply the dash impulse in the direction of movement
@@ -107,10 +112,6 @@ func handle_movement(_delta: float) -> void:
 		if Input.is_action_just_released("dash"):
 			is_charging_dash = false
 			execute_dash()
-		
-	# Protect normal movement: if we are dashing, don't let standard friction override our speed!
-	if is_dashing:
-		return move_and_slide()
 
 	move_and_slide()
 
