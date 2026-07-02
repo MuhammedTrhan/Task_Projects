@@ -15,7 +15,7 @@ const FRICTION = 600.0
 const MIN_DASH_CHARGE = 0.3 # Minimum seconds the dash can be charged
 
 # DASH MECHANIC VARIABLES
-const DASH_IMPULSE = 500.0
+const DASH_IMPULSE = 450.0
 var dash_velocity := Vector2.ZERO
 var is_dashing: bool = false
 var cur_charge: float = 0.0
@@ -63,37 +63,39 @@ func handle_movement(_delta: float) -> void:
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction := Input.get_vector("left", "right", "up", "down")
 
-	if direction != Vector2.ZERO:
-		var target_velocity: Vector2
-		# move_and_slide is already framerate independent, so we don't need to use delta here.
-		if is_parrying or is_parry_starting:
-			# If parrying, move at a reduced speed
-			target_velocity = direction * parry_speed
-		
-		elif is_charging_dash:
-			# If charging dash, move at a reduced speed
-			target_velocity = direction * charge_speed
-
-		elif is_dashing:
-			# Apply the dash impulse in the direction of movement
-			target_velocity = direction.normalized() * DASH_IMPULSE
-
-		else:
-			# Normal movement
-			target_velocity = direction * MAX_SPEED
-		
-		velocity = velocity.move_toward(target_velocity, ACCELERATION * _delta)
-
+	if is_dashing:
+		# If dashing, maintain the dash velocity in the direction player facing
+		velocity = dash_velocity
+	
 	else:
-		if not is_dashing:
-			# If no input, slow down the player smoothly
-			# Instead of instantly stopping, smoothly slow down the player independent of framerate.
-			velocity = velocity.move_toward(Vector2.ZERO, FRICTION * _delta)
-		else:
-			# If dashing, maintain the dash velocity in the direction player facing
-			direction = Vector2($FlipPivot.scale.x, 0)
+		if direction != Vector2.ZERO:
+			var target_velocity: Vector2
 
-			velocity = velocity.move_toward(direction.normalized() * DASH_IMPULSE, ACCELERATION * _delta)
+			# move_and_slide is already framerate independent, so we don't need to use delta here.
+			if is_parrying or is_parry_starting:
+				# If parrying, move at a reduced speed
+				target_velocity = direction * parry_speed
+			
+			elif is_charging_dash:
+				# If charging dash, move at a reduced speed
+				target_velocity = direction * charge_speed
+
+			else:
+				# Normal movement
+				target_velocity = direction * MAX_SPEED
+			
+			velocity = velocity.move_toward(target_velocity, ACCELERATION * _delta)
+
+		else:
+			if not is_dashing:
+				# If no input, slow down the player smoothly
+				# Instead of instantly stopping, smoothly slow down the player independent of framerate.
+				velocity = velocity.move_toward(Vector2.ZERO, FRICTION * _delta)
+			else:
+				# If dashing, maintain the dash velocity in the direction player facing
+				direction = Vector2($FlipPivot.scale.x, 0)
+
+				velocity = velocity.move_toward(direction.normalized() * DASH_IMPULSE, ACCELERATION * _delta)
 	
 	# CHARGED DASH MECHANIC
 	# A. Start Charging
@@ -111,7 +113,7 @@ func handle_movement(_delta: float) -> void:
 		# C. Execute Dash on release
 		if Input.is_action_just_released("dash"):
 			is_charging_dash = false
-			execute_dash()
+			execute_dash(direction)
 
 	move_and_slide()
 
@@ -119,10 +121,18 @@ func handle_movement(_delta: float) -> void:
 func execute_attack() -> void:
 	is_attacking = true
 
-func execute_dash() -> void:
+func execute_dash(dash_direction: Vector2) -> void:
 	is_dashing = true
 	is_invincible = true # DASH INVINCIBILITY
 	is_dash_burst_finished = false
+
+	# Calculate and lock in the dash direction ONCE
+	if dash_direction == Vector2.ZERO:
+		# If no direction is pressed, default to facing direction
+		dash_direction = Vector2($FlipPivot.scale.x, 0)
+	
+	# Instantly snap the velocity vector to max speed!
+	dash_velocity = dash_direction.normalized() * DASH_IMPULSE
 
 	# Calculate dash time
 	var dash_time = max(MIN_DASH_CHARGE, cur_charge)
