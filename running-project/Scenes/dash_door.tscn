@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://bkro5djc81nge"]
+
+[ext_resource type="Script" uid="uid://bholgue5ko82i" path="res://Scripts/dash_door.gd" id="1_60vhm"]
+[ext_resource type="Texture2D" uid="uid://ch40p2a6t3js7" path="res://Assets/DungeonAssetPack/character and tileset/Dungeon_Tileset.png" id="1_rn2ch"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rn2ch"]
+size = Vector2(32, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_60vhm"]
+size = Vector2(34, 38)
+
+[node name="DashDoor" type="StaticBody2D" unique_id=368729726]
+collision_layer = 4
+script = ExtResource("1_60vhm")
+
+[node name="LeftDoorWing" type="Sprite2D" parent="." unique_id=1595085158]
+position = Vector2(-8, 0)
+texture = ExtResource("1_rn2ch")
+hframes = 10
+vframes = 10
+frame = 66
+
+[node name="RightDoorWing" type="Sprite2D" parent="." unique_id=1787489188]
+position = Vector2(8, 0)
+texture = ExtResource("1_rn2ch")
+hframes = 10
+vframes = 10
+frame = 67
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1141298617]
+shape = SubResource("RectangleShape2D_rn2ch")
+
+[node name="DashDetector" type="Area2D" parent="." unique_id=620305098]
+
+[node name="DashHitbox" type="CollisionShape2D" parent="DashDetector" unique_id=175612772]
+shape = SubResource("RectangleShape2D_60vhm")
+
+[connection signal="body_entered" from="DashDetector" to="." method="_on_dash_detector_body_entered"]
+[connection signal="body_exited" from="DashDetector" to="." method="_on_dash_detector_body_exited"]
