@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b1qent8a45g34" path="res://Scenes/base_enemy.tscn" id="1_lgmik"]
 [ext_resource type="Texture2D" uid="uid://bt0k4u7fi7bil" path="res://Assets/Bringer-Of-Death/SpriteSheet/Bringer-of-Death-SpritSheet.png" id="2_y2r5v"]
+[ext_resource type="Script" uid="uid://c88f1t5p1m4r2" path="res://Scripts/damageable.gd" id="3_y2r5v"]
 
 [sub_resource type="Animation" id="Animation_lgmik"]
 length = 0.001
@@ -47,6 +48,37 @@ tracks/1/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_aifuc"]
+resource_name = "die"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlipPivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [29, 30, 31, 32, 33, 34, 35, 36, 37, 38]
+}
+
+[sub_resource type="Animation" id="Animation_6q6es"]
+resource_name = "hurt"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlipPivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [26, 27, 28]
+}
+
 [sub_resource type="Animation" id="Animation_y2r5v"]
 resource_name = "idle"
 length = 0.8
@@ -85,6 +117,8 @@ tracks/0/keys = {
 _data = {
 &"RESET": SubResource("Animation_lgmik"),
 &"attack": SubResource("Animation_ljq4i"),
+&"die": SubResource("Animation_aifuc"),
+&"hurt": SubResource("Animation_6q6es"),
 &"idle": SubResource("Animation_y2r5v"),
 &"walk": SubResource("Animation_l5l05")
 }
@@ -93,7 +127,7 @@ _data = {
 radius = 1.0
 height = 6.0
 
-[node name="BringerOfDeath" unique_id=1864954513 instance=ExtResource("1_lgmik")]
+[node name="BringerOfDeath" unique_id=1864954513 groups=["enemy"] instance=ExtResource("1_lgmik")]
 collision_mask = 6
 chase_speed = 125.0
 patrol_speed = 75.0
@@ -108,16 +142,20 @@ vframes = 8
 libraries/ = SubResource("AnimationLibrary_l5l05")
 
 [node name="DamageArea" parent="FlipPivot" parent_id_path=PackedInt32Array(154655260) index="2" unique_id=1655964951]
+collision_layer = 0
 collision_mask = 256
+script = null
 
 [node name="DamageBox" parent="FlipPivot/DamageArea" index="0" unique_id=1028288541]
-position = Vector2(-48, -23)
+position = Vector2(-36, -22)
 rotation = 1.5707964
 
-[node name="HitArea" parent="FlipPivot" parent_id_path=PackedInt32Array(154655260) index="3" unique_id=1026207824]
-collision_mask = 1
+[node name="HurtArea" parent="FlipPivot" parent_id_path=PackedInt32Array(154655260) index="3" unique_id=1026207824 groups=["enemy"]]
+collision_layer = 512
+collision_mask = 0
+script = ExtResource("3_y2r5v")
 
-[node name="HitBox" parent="FlipPivot/HitArea" index="0" unique_id=2106256572]
+[node name="HitBox" parent="FlipPivot/HurtArea" index="0" unique_id=2106256572]
 position = Vector2(0, -23)
 
 [node name="MovementBox" parent="." index="1" unique_id=2071017867]

@@ -3,17 +3,24 @@ extends CharacterBody2D
 enum State {
 	PATROL,
 	CHASE,
-	HIT
+	ATTACK,
+	HURT,
+	DEAD
 }
 
-signal hit_player
+signal hurt_player
 
 @export var chase_speed: float = 150.0
 @export var patrol_speed: float = 100.0
 @export var chase_threshold: float = 250.0
 @export var attack_range: float = 30.0
+@export var max_hp: float = 30.0
+@export var attack_cooldown: float = 1.0
 
 @export var patrol_points: Array[Vector2] = [Vector2(100, 0), Vector2(-100, 0)]
+
+var current_hp: float = max_hp
+var cur_attack_cooldown: float = 0.0
 
 var current_state: State = State.PATROL
 var player: CharacterBody2D = null
@@ -24,8 +31,11 @@ var current_point_index: int = 0
 var arrival_threshold: float = 10.0
 
 var player_inside: bool = false
-var hit_finished: bool = false
-var player_hit: bool = false
+var attack_finished: bool = false
+var player_hurt: bool = false
+var hurt_finished: bool = true
+
+var enemy_hurt: bool = false
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 
@@ -45,11 +55,15 @@ func _physics_process(_delta: float) -> void:
 			handle_patrol(_delta)
 		State.CHASE:
 			handle_chase(_delta)
-		State.HIT:
+		State.ATTACK:
 			velocity = Vector2.ZERO
-			# if player_inside and not player_hit:
-			# 	emit_signal("hit_player")
-			# 	player_hit = true
+		State.HURT:
+			velocity = Vector2.ZERO
+		State.DEAD:
+			velocity = Vector2.ZERO
+		
+	if cur_attack_cooldown > 0:
+		cur_attack_cooldown -= _delta
 
 	move_and_slide()
 
@@ -61,33 +75,61 @@ func state_manager() -> State:
 		return State.PATROL
 
 	var distance_to_player = global_position.distance_to(player.global_position)
+
+	# If the hp is 0 or less, the enemy is dead and should not do anything else.
+	if current_hp <= 0 or current_state == State.DEAD:
+		return State.DEAD
 	
 	if current_state == State.PATROL:
-		if player_inside:
-			return State.HIT
+		if player_inside and hurt_finished and cur_attack_cooldown <= 0:
+			return State.ATTACK
+		
 		if distance_to_player < chase_threshold:
 			return State.CHASE
+		
+		if enemy_hurt:
+			enemy_hurt = false
+			return State.HURT
+		
 		else:
 			return current_state
 
 	elif current_state == State.CHASE:
-		if player_inside:
-			return State.HIT
+		if player_inside and hurt_finished and cur_attack_cooldown <= 0:
+			return State.ATTACK
 		if distance_to_player >= chase_threshold:
 			return State.PATROL
+		if enemy_hurt:
+			enemy_hurt = false
+			return State.HURT
 		else:
 			return current_state
 
-	elif current_state == State.HIT:
-		if hit_finished:
-			hit_finished = false
-			player_hit = false
+	elif current_state == State.ATTACK:
+		if enemy_hurt:
+			enemy_hurt = false
+			return State.HURT
+		
+		if attack_finished:
+			attack_finished = false
+			player_hurt = false
 			if distance_to_player < chase_threshold:
 				return State.CHASE
 			else:
 				return State.PATROL
 		else:
 			return current_state
+		
+	elif current_state == State.HURT:
+		# Stay in the hurt state until the animation finishes
+		if not hurt_finished:
+			return current_state
+		
+		if distance_to_player < chase_threshold:
+			return State.CHASE
+		else:
+			return State.PATROL
+		# No state change to attack since the hurt shuld overwrite the attack.
 	else:
 		return current_state
 
@@ -134,7 +176,15 @@ func handle_chase(_delta: float) -> void:
 
 
 func animation_manager() -> void:
-	if current_state == State.HIT:
+	if current_state == State.DEAD:
+		$FlipPivot/AnimationPlayer.play("die")
+		return
+
+	if current_state == State.HURT:
+		$FlipPivot/AnimationPlayer.play("hurt")
+		return
+
+	if current_state == State.ATTACK:
 		$FlipPivot/AnimationPlayer.play("attack")
 		return
 	
@@ -151,17 +201,25 @@ func animation_manager() -> void:
 		else:
 			$FlipPivot.scale.x = -1
 
-
+# This function is called by animation player when the attack animation reaches the frame where damage should be applied.
 func trigger_atack_damage() -> void:
-	if player_inside and not player_hit:
-		emit_signal("hit_player")
-		player_hit = true
+	if player_inside and not player_hurt:
+		emit_signal("hurt_player")
+		player_hurt = true
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	# If the die animation finishes, remove the enemy from the scene
+	if anim_name == "die":
+		queue_free()
+	
+	if anim_name == "hurt":
+		hurt_finished = true
+	
 	# After the attack animation finishes, return to patrolling
-	if anim_name == "attack":
-		hit_finished = true
+	elif anim_name == "attack":
+		attack_finished = true
+		cur_attack_cooldown = attack_cooldown
 
 
 func _on_damage_area_area_entered(area: Area2D) -> void:
@@ -172,3 +230,15 @@ func _on_damage_area_area_entered(area: Area2D) -> void:
 func _on_damage_area_area_exited(area: Area2D) -> void:
 	if area.is_in_group("player") and player_inside:
 		player_inside = false
+	
+
+# This function is called by the player when the player attacks the enemy.
+func take_damage(amount: float) -> void:
+	current_hp -= amount
+	print("Enemy HP remaining: ", current_hp)
+
+	enemy_hurt = true
+	hurt_finished = false
+
+	# reset the attack state
+	attack_finished = false
