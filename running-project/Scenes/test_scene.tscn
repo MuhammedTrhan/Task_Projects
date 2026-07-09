@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://g871tdu5k725" path="res://Scenes/box.tscn" id="7_oho3u"]
 [ext_resource type="Script" uid="uid://d1e8qcbuh6240" path="res://Scripts/enemy_spawner.gd" id="7_rdbpf"]
 [ext_resource type="PackedScene" uid="uid://bkro5djc81nge" path="res://Scenes/dash_door.tscn" id="8_oho3u"]
+[ext_resource type="PackedScene" uid="uid://c5nbvbk770mse" path="res://Scenes/inventory_ui.tscn" id="10_yglu3"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_x033f"]
 vertices = PackedVector2Array(464.10156, 63.898438, 464.10156, 208.10156, 463.89844, 159.89844, 463.89844, 112.10156, 735.89844, 223.89844, 992.10156, 191.89844, 1039.8984, 191.89844, 927.89844, 368.10156, 880.10156, 368.10156, 1088.1016, 175.89844, 1088.1016, 576.10156, 927.89844, 415.89844, 880.10156, 415.89844, 383.89844, 576.10156, 383.89844, 544.10156, 735.89844, 176.10156, 992.10156, 144.10156, 367.89844, 63.898438, 416.10156, 112.10156, 399.89844, 208.10156, 367.89844, 127.89844, 416.10156, 159.89844, 400.10156, 208.10156, 400.10156, 303.89844, 416.10156, 303.89844, 416.10156, 319.89844, 351.89844, 495.89844, 463.89844, 319.89844, 463.89844, 303.89844, 623.89844, 303.89844, 623.89844, 95.89844, 992.10156, 95.89844, 992.10156, 111.89844, 1008.10156, 111.89844, 1008.10156, 143.89844, 1024.1016, 143.89844, 1024.1016, 144.10156, 1039.8984, 159.89844, 1040.1016, 159.89844, 1040.1016, 175.89844, 351.89844, 544.10156, 351.89844, 496.10156, 272.10156, 496.10156, 272.10156, 576.10156, 111.89844, 576.10156, 111.89844, 431.89844, 240.10156, 463.89844, 240.10156, 431.89844, 272.10156, 463.89844, 272.10156, 495.89844, 351.89844, 303.89844, 399.89844, 303.89844, 351.89844, 208.10156, 351.89844, 128.10156, 288.10156, 128.10156, 288.10156, 320.10156, 63.898438, 320.10156, 63.898438, 63.898438, 288.10156, 63.898438, 288.10156, 127.89844, 688.10156, 176.10156, 688.10156, 223.89844)
@@ -221,5 +222,12 @@ offset_bottom = 35.0
 text = "Dash with L-Shift
 Press 'F' for attack
 Press 'Space' to parry"
+
+[node name="InventoryUI" parent="." unique_id=1608905977 node_paths=PackedStringArray("inventory_backend") instance=ExtResource("10_yglu3")]
+offset_left = 574.0
+offset_top = 596.0
+offset_right = 614.0
+offset_bottom = 636.0
+inventory_backend = NodePath("../Inventory")
 
 [connection signal="timeout" from="EnemySpawner/Timer" to="EnemySpawner" method="_on_timer_timeout"]
