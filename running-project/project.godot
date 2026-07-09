@@ -15,6 +15,10 @@ run/main_scene="uid://dkasuq03xq3a8"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+PlayerInventory="*uid://dqeqg377r5sw5"
+
 [display]
 
 window/stretch/mode="canvas_items"
@@ -82,8 +86,10 @@ parry={
 2d_physics/layer_2="Enemies"
 2d_physics/layer_3="Walls"
 2d_physics/layer_4="Pushables"
+2d_physics/layer_5="Pickables"
 2d_physics/layer_9="Player HitBox"
 2d_physics/layer_10="Enemy HitBox"
+2d_physics/layer_13="Player Pickup"
 
 [physics]
 

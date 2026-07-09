@@ -273,6 +273,7 @@ func take_damage(amount: float) -> void:
 		die()
 	
 func die() -> void:
+	PlayerInventory.clear_inventory() # Clear the inventory on death
 	is_dead = true
 
 
@@ -280,3 +281,16 @@ func _on_damage_area_area_entered(area: Area2D) -> void:
 	# 3. Verify the parent actually has the method, then apply damage
 	if area.has_method("take_damage"):
 		area.take_damage(10.0)
+
+
+func _on_pickup_area_area_entered(area: Area2D) -> void:
+	# Check if the area we collided with is actually an item
+	if area is PickupItem:
+		# Try to add it to the inventory backend
+		var was_added = PlayerInventory.add_item(area.item_resource, area.quantity)
+
+		# If the inventory had space and successfully added it, delete the physical item
+		if was_added:
+			area.queue_free()
+
+	pass # Replace with function body.

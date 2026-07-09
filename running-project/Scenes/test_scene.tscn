@@ -3,13 +3,16 @@
 [ext_resource type="Script" uid="uid://48x6uf625bo7" path="res://Scripts/test_scene.gd" id="1_50ct6"]
 [ext_resource type="Texture2D" uid="uid://ch40p2a6t3js7" path="res://Assets/DungeonAssetPack/character and tileset/Dungeon_Tileset.png" id="2_50ct6"]
 [ext_resource type="PackedScene" uid="uid://e28l5j2svhea" path="res://Scenes/coin.tscn" id="2_ak5v8"]
-[ext_resource type="Script" uid="uid://dqeqg377r5sw5" path="res://Scripts/inventory.gd" id="2_d3awe"]
 [ext_resource type="Script" uid="uid://j13s6stcdiio" path="res://Scripts/game_manager.gd" id="4_hb2xm"]
 [ext_resource type="PackedScene" uid="uid://cn5ltnr2e01vu" path="res://Scenes/player.tscn" id="5_ak5v8"]
 [ext_resource type="PackedScene" uid="uid://g871tdu5k725" path="res://Scenes/box.tscn" id="7_oho3u"]
 [ext_resource type="Script" uid="uid://d1e8qcbuh6240" path="res://Scripts/enemy_spawner.gd" id="7_rdbpf"]
 [ext_resource type="PackedScene" uid="uid://bkro5djc81nge" path="res://Scenes/dash_door.tscn" id="8_oho3u"]
+[ext_resource type="PackedScene" uid="uid://vc3ss0le6sv5" path="res://Scenes/pickup_item.tscn" id="10_ibmi3"]
 [ext_resource type="PackedScene" uid="uid://c5nbvbk770mse" path="res://Scenes/inventory_ui.tscn" id="10_yglu3"]
+[ext_resource type="Resource" uid="uid://cbx4elsjcvra5" path="res://Assets/Items/key.tres" id="11_4blnk"]
+[ext_resource type="Resource" uid="uid://4dtk2xa2711g" path="res://Assets/Items/coal.tres" id="12_4blnk"]
+[ext_resource type="Resource" uid="uid://rt0iu6sbfn1n" path="res://Assets/Items/apple.tres" id="13_tnimv"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_x033f"]
 vertices = PackedVector2Array(464.10156, 63.898438, 464.10156, 208.10156, 463.89844, 159.89844, 463.89844, 112.10156, 735.89844, 223.89844, 992.10156, 191.89844, 1039.8984, 191.89844, 927.89844, 368.10156, 880.10156, 368.10156, 1088.1016, 175.89844, 1088.1016, 576.10156, 927.89844, 415.89844, 880.10156, 415.89844, 383.89844, 576.10156, 383.89844, 544.10156, 735.89844, 176.10156, 992.10156, 144.10156, 367.89844, 63.898438, 416.10156, 112.10156, 399.89844, 208.10156, 367.89844, 127.89844, 416.10156, 159.89844, 400.10156, 208.10156, 400.10156, 303.89844, 416.10156, 303.89844, 416.10156, 319.89844, 351.89844, 495.89844, 463.89844, 319.89844, 463.89844, 303.89844, 623.89844, 303.89844, 623.89844, 95.89844, 992.10156, 95.89844, 992.10156, 111.89844, 1008.10156, 111.89844, 1008.10156, 143.89844, 1024.1016, 143.89844, 1024.1016, 144.10156, 1039.8984, 159.89844, 1040.1016, 159.89844, 1040.1016, 175.89844, 351.89844, 544.10156, 351.89844, 496.10156, 272.10156, 496.10156, 272.10156, 576.10156, 111.89844, 576.10156, 111.89844, 431.89844, 240.10156, 463.89844, 240.10156, 431.89844, 272.10156, 463.89844, 272.10156, 495.89844, 351.89844, 303.89844, 399.89844, 303.89844, 351.89844, 208.10156, 351.89844, 128.10156, 288.10156, 128.10156, 288.10156, 320.10156, 63.898438, 320.10156, 63.898438, 63.898438, 288.10156, 63.898438, 288.10156, 127.89844, 688.10156, 176.10156, 688.10156, 223.89844)
@@ -164,9 +167,6 @@ sources/0 = SubResource("TileSetAtlasSource_hb2xm")
 [node name="TestScene" type="Node2D" unique_id=1497849694]
 script = ExtResource("1_50ct6")
 
-[node name="Inventory" type="Node" parent="." unique_id=393240605]
-script = ExtResource("2_d3awe")
-
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1620410291]
 navigation_polygon = SubResource("NavigationPolygon_x033f")
 
@@ -178,41 +178,57 @@ tile_set = SubResource("TileSet_rdbpf")
 tile_map_data = PackedByteArray("AAA4ABgAAAAJAAUAAAAsAAwAAAAJAAUAAAAQABsAAAAJAAUAAAAbAAgAAAAJAAUAAAAbABIAAAAJAAUAAABAAAcAAAAJAAUAAABCAAgAAAAJAAUAAABDAAYAAAAJAAUAAABCAAcAAAAJAAQAAABBAAgAAAAJAAQAAABCAAkAAAAJAAQAAABBAAcAAAAHAAcAAABDAAgAAAAHAAcAAABBAAYAAAAJAAUAAABCAAYAAAAJAAQAAAA/AAoAAAAJAAQAAAAVABEAAAAEAAYAAAAWACMAAAAIAAYAAABDAAcAAAAIAAYAAABAAAYAAAAIAAYAAAADABEAAAABAAkAAAAWAAQAAAABAAkAAAAVABUAAAABAAkAAAAVACIAAAABAAkAAAAGACAAAAABAAkAAAA0ABoAAAAAAAkAAAA2AAoAAAAAAAkAAAAmAAoAAAABAAkAAABEAAoAAAABAAkAABBEABcAAAABAAkAABBEACAAAAABAAkAABA/AAUAAAAJAAQAAABEAAkAAAAJAAQAAABEAAYAAAAJAAQAAABBAAUAAAAJAAUAAABCAAUAAAAJAAUAAABEAAcAAAAJAAUAAABEAAgAAAAJAAUAAABEAAUAAAAJAAUAAABDAAUAAAAHAAcAAABAAAUAAAAIAAYAAAA=")
 tile_set = SubResource("TileSet_rdbpf")
 
-[node name="Coin4" parent="." unique_id=1676778267 instance=ExtResource("2_ak5v8")]
-position = Vector2(740, 519)
-
 [node name="GameManager" type="Node" parent="." unique_id=864416476]
 script = ExtResource("4_hb2xm")
 
-[node name="Coin" parent="." unique_id=1112527306 instance=ExtResource("2_ak5v8")]
-position = Vector2(465, 162)
-
-[node name="Coin2" parent="." unique_id=1837759826 instance=ExtResource("2_ak5v8")]
-position = Vector2(111, 507)
-
-[node name="Coin3" parent="." unique_id=536201473 instance=ExtResource("2_ak5v8")]
-position = Vector2(1080, 323)
-
-[node name="EnemySpawner" type="Node2D" parent="." unique_id=1346395359]
+[node name="EnemySpawner" type="Node2D" parent="GameManager" unique_id=1346395359]
 position = Vector2(890, 340)
 script = ExtResource("7_rdbpf")
 
-[node name="Timer" type="Timer" parent="EnemySpawner" unique_id=2145333248]
+[node name="Timer" type="Timer" parent="GameManager/EnemySpawner" unique_id=2145333248]
 wait_time = 5.0
 autostart = true
-
-[node name="Box" parent="." unique_id=1455768306 instance=ExtResource("7_oho3u")]
-position = Vector2(774, 305)
-
-[node name="Box2" parent="." unique_id=314095692 instance=ExtResource("7_oho3u")]
-position = Vector2(403, 187)
 
 [node name="DashDoor" parent="." unique_id=368729726 instance=ExtResource("8_oho3u")]
 position = Vector2(400, 261)
 
+[node name="Boxes" type="Node" parent="." unique_id=1251458751]
+
+[node name="Box" parent="Boxes" unique_id=1455768306 instance=ExtResource("7_oho3u")]
+position = Vector2(774, 305)
+
+[node name="Box2" parent="Boxes" unique_id=314095692 instance=ExtResource("7_oho3u")]
+position = Vector2(403, 187)
+
+[node name="Coins" type="Node" parent="." unique_id=263208787]
+
+[node name="Coin" parent="Coins" unique_id=1112527306 instance=ExtResource("2_ak5v8")]
+position = Vector2(465, 162)
+
+[node name="Coin2" parent="Coins" unique_id=536201473 instance=ExtResource("2_ak5v8")]
+position = Vector2(1080, 323)
+
 [node name="Player" parent="." unique_id=1704028917 instance=ExtResource("5_ak5v8")]
 position = Vector2(406, 152)
 scale = Vector2(0.5, 0.5)
+
+[node name="Pickables" type="Node" parent="." unique_id=2039439448]
+
+[node name="Key" parent="Pickables" unique_id=1139098551 instance=ExtResource("10_ibmi3")]
+position = Vector2(1025, 152)
+item_resource = ExtResource("11_4blnk")
+
+[node name="PickupItem" parent="Pickables" unique_id=264590343 instance=ExtResource("10_ibmi3")]
+position = Vector2(88, 92)
+item_resource = ExtResource("12_4blnk")
+
+[node name="PickupItem2" parent="Pickables" unique_id=1782362995 instance=ExtResource("10_ibmi3")]
+position = Vector2(120, 227)
+item_resource = ExtResource("12_4blnk")
+
+[node name="Apple" parent="Pickables" unique_id=1258015019 instance=ExtResource("10_ibmi3")]
+position = Vector2(115, 570)
+item_resource = ExtResource("13_tnimv")
 
 [node name="ControlsInfo" type="Label" parent="." unique_id=2081702341]
 offset_left = 12.0
@@ -223,11 +239,10 @@ text = "Dash with L-Shift
 Press 'F' for attack
 Press 'Space' to parry"
 
-[node name="InventoryUI" parent="." unique_id=1608905977 node_paths=PackedStringArray("inventory_backend") instance=ExtResource("10_yglu3")]
+[node name="InventoryUI" parent="." unique_id=1608905977 instance=ExtResource("10_yglu3")]
 offset_left = 574.0
 offset_top = 596.0
 offset_right = 614.0
 offset_bottom = 636.0
-inventory_backend = NodePath("../Inventory")
 
-[connection signal="timeout" from="EnemySpawner/Timer" to="EnemySpawner" method="_on_timer_timeout"]
+[connection signal="timeout" from="GameManager/EnemySpawner/Timer" to="GameManager/EnemySpawner" method="_on_timer_timeout"]

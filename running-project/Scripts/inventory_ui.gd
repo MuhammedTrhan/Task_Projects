@@ -1,11 +1,10 @@
 extends Control
 
-@export var inventory_backend: Inventory # Drag your backend node here in the Inspector
 @export var slot_scene: PackedScene = preload("res://Scenes/inventory_slot.tscn")
 @onready var grid: GridContainer = $Panel/GridContainer
 
 func _ready():
-	inventory_backend.inventory_updated.connect(update_slot)
+	PlayerInventory.inventory_updated.connect(update_slot)
 
 	# Clear any dummy slots you might have placed in the editor
 	for child in grid.get_children():
@@ -13,16 +12,16 @@ func _ready():
 		child.queue_free()
         
 	# Generate the visual slots based on your backend max_slots
-	for i in range(inventory_backend.max_slots):
+	for i in range(PlayerInventory.max_slots):
 		var new_slot = slot_scene.instantiate()
 		grid.add_child(new_slot)
 
-	print("Inventory UI initialized with ", inventory_backend.max_slots, " slots.")
+	print("Inventory UI initialized with ", PlayerInventory.max_slots, " slots.")
         
 	refresh_inventory_ui()
 
 func refresh_inventory_ui():
-	var current_inventory = inventory_backend.get_inventory()
+	var current_inventory = PlayerInventory.get_inventory()
 	var visual_slots = grid.get_children()
     
 	# Loop through the backend array and update the visuals to match

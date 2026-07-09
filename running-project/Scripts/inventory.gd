@@ -79,6 +79,12 @@ func remove_item(slot_index: int, quantity: int = 1) -> bool:
 	inventory_updated.emit(slot_index, null, 0)
 	return true
 
+func clear_inventory() -> void:
+	for i in range(max_slots):
+		slots[i]["item"] = null
+		slots[i]["quantity"] = 0
+		inventory_updated.emit(i, null, 0)
+
 func get_item(slot_index: int) -> ItemData:
 	if slot_index < 0 or slot_index >= max_slots:
 		return null
