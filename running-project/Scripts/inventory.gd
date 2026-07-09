@@ -49,3 +49,30 @@ func add_item(item_data: ItemData, quantity: int = 1) -> bool:
 
 	# Inventory is full
 	return false
+
+func remove_item(slot_index: int, quantity: int = 1) -> bool:
+	if slot_index < 0 or slot_index >= max_slots:
+		return false
+
+	var slot = slots[slot_index]
+	if slot["item"] == null or quantity <= 0:
+		return false
+
+	if slot["quantity"] < quantity:
+		return false # Not enough items to remove
+
+	slot["quantity"] -= quantity
+
+	# If the quantity drops to zero, clear the slot
+	if slot["quantity"] == 0:
+		slot["item"] = null
+
+	return true
+
+func get_item(slot_index: int) -> ItemData:
+	if slot_index < 0 or slot_index >= max_slots:
+		return null
+	return slots[slot_index]["item"]
+
+func get_inventory() -> Array[Dictionary]:
+	return slots
