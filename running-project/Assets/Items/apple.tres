@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://rt0iu6sbfn1n"]
+
+[ext_resource type="Script" uid="uid://dyktsf43ca14d" path="res://Scripts/item_data.gd" id="1_eg2xy"]
+[ext_resource type="Texture2D" uid="uid://bynkkfl28xd3i" path="res://Assets/Items/Images/Apple.png" id="1_jnrnc"]
+
+[resource]
+script = ExtResource("1_eg2xy")
+item_name = "apple"
+icon = ExtResource("1_jnrnc")
+metadata/_custom_type_script = "uid://dyktsf43ca14d"

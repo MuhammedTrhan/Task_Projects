@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://sxiaplwh8aoa"]
+
+[ext_resource type="Texture2D" uid="uid://l0w17fpc4mpv" path="res://Assets/Items/Images/Diamond.png" id="1_6iy2s"]
+[ext_resource type="Script" uid="uid://dyktsf43ca14d" path="res://Scripts/item_data.gd" id="1_ahf6q"]
+
+[resource]
+script = ExtResource("1_ahf6q")
+item_name = "diamond"
+icon = ExtResource("1_6iy2s")
+item_type = 1
+metadata/_custom_type_script = "uid://dyktsf43ca14d"
