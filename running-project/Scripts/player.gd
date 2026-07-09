@@ -79,6 +79,28 @@ func _unhandled_input(event: InputEvent) -> void:
 		PlayerInventory.set_active_slot(5)
 	elif event.is_action_pressed("slot_6"):
 		PlayerInventory.set_active_slot(6)
+	
+	# --- USING AND DROPPING ---
+	var current_item = PlayerInventory.get_item(PlayerInventory.active_slot_index)
+
+	if current_item != null:
+		# CONSUME (E)
+		if event.is_action_pressed("interract"):
+			if current_item.item_type == ItemData.ItemType.CONSUMABLE:
+				print("Ate the ", current_item.item_name, "! Delicious!")
+				
+				# Add healing logic here
+
+				PlayerInventory.remove_item(PlayerInventory.active_slot_index, 1)
+			else:
+				print("Cannot consume ", current_item.item_name, ". It's not a consumable item.")
+
+		# DROP (Q)
+		elif event.is_action_pressed("drop_item"):
+			print("Dropping item: ", current_item.item_name)
+			PlayerInventory.remove_item(PlayerInventory.active_slot_index, 1)
+
+			# Spawn a PickupItem scene at the player's position
 		
 func handle_movement(_delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.

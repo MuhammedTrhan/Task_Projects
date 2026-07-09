@@ -81,7 +81,7 @@ func remove_item(slot_index: int, quantity: int = 1) -> bool:
 	if slot["quantity"] == 0:
 		slot["item"] = null
 
-	inventory_updated.emit(slot_index, null, 0)
+	inventory_updated.emit(slot_index, slot["item"], slot["quantity"])
 	return true
 
 func clear_inventory() -> void:
