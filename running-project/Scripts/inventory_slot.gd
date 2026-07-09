@@ -3,6 +3,7 @@ extends Panel
 @onready var icon_rect: TextureRect = $Icon
 @onready var name_label: Label = $NameLabel
 @onready var quantity_label: Label = $QuantityLabel
+@onready var highlight: ColorRect = $Highlight
 
 func update_slot(item_data: ItemData, quantity: int):
 	if item_data != null:
@@ -17,3 +18,7 @@ func update_slot(item_data: ItemData, quantity: int):
 		icon_rect.texture = null
 		name_label.text = ""
 		quantity_label.text = ""
+	
+
+func set_highlighted(is_highlighted: bool):
+	highlight.visible = is_highlighted

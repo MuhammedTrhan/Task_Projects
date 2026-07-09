@@ -57,7 +57,29 @@ func _physics_process(_delta: float) -> void:
 
 	animation_manager()
 
+func _unhandled_input(event: InputEvent) -> void:
+	# --- SCROLLING ---
+	if event.is_action_pressed("scroll_up"):
+		PlayerInventory.set_active_slot(PlayerInventory.active_slot_index - 1)
+	elif event.is_action_pressed("scroll_down"):
+		PlayerInventory.set_active_slot(PlayerInventory.active_slot_index + 1)
 
+	# --- HOTKEYS ---
+	if event.is_action_pressed("slot_0"):
+		PlayerInventory.set_active_slot(0)
+	elif event.is_action_pressed("slot_1"):
+		PlayerInventory.set_active_slot(1)
+	elif event.is_action_pressed("slot_2"):
+		PlayerInventory.set_active_slot(2)
+	elif event.is_action_pressed("slot_3"):
+		PlayerInventory.set_active_slot(3)
+	elif event.is_action_pressed("slot_4"):
+		PlayerInventory.set_active_slot(4)
+	elif event.is_action_pressed("slot_5"):
+		PlayerInventory.set_active_slot(5)
+	elif event.is_action_pressed("slot_6"):
+		PlayerInventory.set_active_slot(6)
+		
 func handle_movement(_delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.

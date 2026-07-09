@@ -5,6 +5,7 @@ extends Control
 
 func _ready():
 	PlayerInventory.inventory_updated.connect(update_slot)
+	PlayerInventory.active_slot_changed.connect(update_highlight)
 
 	# Clear any dummy slots you might have placed in the editor
 	for child in grid.get_children():
@@ -29,7 +30,15 @@ func refresh_inventory_ui():
 		var slot_data = current_inventory[i]
 		visual_slots[i].update_slot(slot_data["item"], slot_data["quantity"])
 	
+	update_highlight(PlayerInventory.active_slot_index)
+	
 func update_slot(slot_index: int, item_data: ItemData, quantity: int):
 	var visual_slots = grid.get_children()
 	if slot_index >= 0 and slot_index < visual_slots.size():
 		visual_slots[slot_index].update_slot(item_data, quantity)
+	
+func update_highlight(active_slot_index: int):
+	var visual_slots = grid.get_children()
+	for i in range(visual_slots.size()):
+		# Only true if the current loop index matches the active index
+		visual_slots[i].set_highlighted(i == active_slot_index)

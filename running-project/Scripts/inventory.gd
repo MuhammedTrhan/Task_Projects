@@ -2,11 +2,16 @@ extends Node
 class_name Inventory
 
 signal inventory_updated(slot_index: int, item_data: ItemData, quantity: int)
+signal active_slot_changed(slot_index: int)
 
 # This array will hold our inventory slots.
 # Each slot will look like this: {"item": ItemData, "quantity": int}
 var slots: Array[Dictionary] = []
 var max_slots: int = 7
+
+var active_slot_index: int = 0
+
+
 func _ready():
 	# Initialize the inventory with empty slots
 	for i in range(max_slots):
@@ -92,3 +97,13 @@ func get_item(slot_index: int) -> ItemData:
 
 func get_inventory() -> Array[Dictionary]:
 	return slots
+
+func set_active_slot(index: int) -> void:
+	# Ensure the index wraps around if scrolling past the ends
+	if index < 0:
+		index = max_slots - 1
+	elif index >= max_slots:
+		index = 0
+	
+	active_slot_index = index
+	active_slot_changed.emit(active_slot_index)
