@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://48x6uf625bo7" path="res://Scripts/test_scene.gd" id="1_50ct6"]
 [ext_resource type="Texture2D" uid="uid://ch40p2a6t3js7" path="res://Assets/DungeonAssetPack/character and tileset/Dungeon_Tileset.png" id="2_50ct6"]
 [ext_resource type="PackedScene" uid="uid://e28l5j2svhea" path="res://Scenes/coin.tscn" id="2_ak5v8"]
+[ext_resource type="Script" uid="uid://dqeqg377r5sw5" path="res://Scripts/inventory.gd" id="2_d3awe"]
 [ext_resource type="Script" uid="uid://j13s6stcdiio" path="res://Scripts/game_manager.gd" id="4_hb2xm"]
 [ext_resource type="PackedScene" uid="uid://cn5ltnr2e01vu" path="res://Scenes/player.tscn" id="5_ak5v8"]
 [ext_resource type="PackedScene" uid="uid://g871tdu5k725" path="res://Scenes/box.tscn" id="7_oho3u"]
@@ -161,6 +162,9 @@ sources/0 = SubResource("TileSetAtlasSource_hb2xm")
 
 [node name="TestScene" type="Node2D" unique_id=1497849694]
 script = ExtResource("1_50ct6")
+
+[node name="Inventory" type="Node" parent="." unique_id=393240605]
+script = ExtResource("2_d3awe")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1620410291]
 navigation_polygon = SubResource("NavigationPolygon_x033f")
