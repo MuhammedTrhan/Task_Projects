@@ -1,6 +1,8 @@
 extends Node
 class_name Inventory
 
+signal inventory_updated(slot_index: int, item_data: ItemData, quantity: int)
+
 # This array will hold our inventory slots.
 # Each slot will look like this: {"item": ItemData, "quantity": int}
 var slots: Array[Dictionary] = []
@@ -24,11 +26,15 @@ func add_item(item_data: ItemData, quantity: int = 1) -> bool:
 				# Calculate remainder and set the slot to max stack size
 				var overflow: int = new_quantity - item_data.max_stack_size
 				slot["quantity"] = item_data.max_stack_size
+
+				inventory_updated.emit(slots.find(slot), item_data, item_data.max_stack_size)
 				# Check again if there exists another stack for the same item by calling add_item recursively
 				return add_item(item_data, overflow)
 
 			else:
 				slot["quantity"] = new_quantity
+
+				inventory_updated.emit(slots.find(slot), item_data, new_quantity)
 				return true
 
 	# If not existing stack or no available space, find an empty slot
@@ -40,10 +46,14 @@ func add_item(item_data: ItemData, quantity: int = 1) -> bool:
 			if quantity > item_data.max_stack_size:
 				slot["quantity"] = item_data.max_stack_size
 				var overflow: int = quantity - item_data.max_stack_size
+
+				inventory_updated.emit(slots.find(slot), item_data, item_data.max_stack_size)
 				# Check again if there exists another stack for the same item by calling add_item recursively
 				return add_item(item_data, overflow)
 			else:
 				slot["quantity"] = quantity
+
+				inventory_updated.emit(slots.find(slot), item_data, quantity)
 				return true
 
 	# Inventory is full
@@ -66,6 +76,7 @@ func remove_item(slot_index: int, quantity: int = 1) -> bool:
 	if slot["quantity"] == 0:
 		slot["item"] = null
 
+	inventory_updated.emit(slot_index, null, 0)
 	return true
 
 func get_item(slot_index: int) -> ItemData:

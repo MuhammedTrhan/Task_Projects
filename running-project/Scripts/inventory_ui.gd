@@ -5,8 +5,11 @@ extends Control
 @onready var grid: GridContainer = $Panel/GridContainer
 
 func _ready():
+	inventory_backend.inventory_updated.connect(update_slot)
+
 	# Clear any dummy slots you might have placed in the editor
 	for child in grid.get_children():
+		grid.remove_child(child)
 		child.queue_free()
         
 	# Generate the visual slots based on your backend max_slots
@@ -16,9 +19,9 @@ func _ready():
 
 	print("Inventory UI initialized with ", inventory_backend.max_slots, " slots.")
         
-	update_inventory_ui()
+	refresh_inventory_ui()
 
-func update_inventory_ui():
+func refresh_inventory_ui():
 	var current_inventory = inventory_backend.get_inventory()
 	var visual_slots = grid.get_children()
     
@@ -26,3 +29,8 @@ func update_inventory_ui():
 	for i in range(current_inventory.size()):
 		var slot_data = current_inventory[i]
 		visual_slots[i].update_slot(slot_data["item"], slot_data["quantity"])
+	
+func update_slot(slot_index: int, item_data: ItemData, quantity: int):
+	var visual_slots = grid.get_children()
+	if slot_index >= 0 and slot_index < visual_slots.size():
+		visual_slots[slot_index].update_slot(item_data, quantity)
