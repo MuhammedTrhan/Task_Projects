@@ -223,11 +223,11 @@ position = Vector2(1025, 152)
 item_resource = ExtResource("11_4blnk")
 
 [node name="PickupItem" parent="Pickables" unique_id=264590343 instance=ExtResource("10_ibmi3")]
-position = Vector2(88, 92)
+position = Vector2(451, 69)
 item_resource = ExtResource("12_4blnk")
 
 [node name="PickupItem2" parent="Pickables" unique_id=1782362995 instance=ExtResource("10_ibmi3")]
-position = Vector2(120, 227)
+position = Vector2(182, 277)
 item_resource = ExtResource("12_4blnk")
 
 [node name="Apple" parent="Pickables" unique_id=1258015019 instance=ExtResource("10_ibmi3")]
@@ -239,22 +239,24 @@ z_index = 1
 position = Vector2(406, 152)
 scale = Vector2(0.5, 0.5)
 
-[node name="ControlsInfo" type="Label" parent="." unique_id=2081702341]
+[node name="UICanvas" type="CanvasLayer" parent="." unique_id=1518031965]
+
+[node name="InventoryUI" parent="UICanvas" unique_id=1608905977 instance=ExtResource("10_yglu3")]
+offset_left = -2.0
+offset_top = -52.0
+offset_right = 38.0
+offset_bottom = -12.0
+
+[node name="ControlsInfo" type="Label" parent="UICanvas" unique_id=2081702341]
 offset_left = 12.0
 offset_top = 12.0
-offset_right = 143.0
-offset_bottom = 35.0
+offset_right = 289.0
+offset_bottom = 165.0
 text = "- Dash with L-Shift
 - Press 'F' for attack
 - Press 'Space' to parry
 - Use mouse scroll, number keys or
 click on it to chose an inventory slot
 - Press 'E' to use 'Q' to drop item"
-
-[node name="InventoryUI" parent="." unique_id=1608905977 instance=ExtResource("10_yglu3")]
-offset_left = 574.0
-offset_top = 596.0
-offset_right = 614.0
-offset_bottom = 636.0
 
 [connection signal="timeout" from="GameManager/EnemySpawner/Timer" to="GameManager/EnemySpawner" method="_on_timer_timeout"]
