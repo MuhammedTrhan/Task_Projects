@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://dnsweqgrcuf1l"]
+
+[ext_resource type="Texture2D" uid="uid://bavrsbt5p4rg1" path="res://Assets/Items/Images/Gold_ore.png" id="1_crf61"]
+[ext_resource type="Script" uid="uid://dyktsf43ca14d" path="res://Scripts/item_data.gd" id="1_u50fj"]
+
+[resource]
+script = ExtResource("1_u50fj")
+item_name = "gold ore"
+icon = ExtResource("1_crf61")
+item_type = 1
+metadata/_custom_type_script = "uid://dyktsf43ca14d"

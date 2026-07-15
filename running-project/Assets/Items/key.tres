@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://cbx4elsjcvra5"]
+
+[ext_resource type="Texture2D" uid="uid://do327fbfspgp" path="res://Assets/Items/Images/Key.png" id="1_m1vsf"]
+[ext_resource type="Script" uid="uid://dyktsf43ca14d" path="res://Scripts/item_data.gd" id="1_u3mp4"]
+
+[resource]
+script = ExtResource("1_u3mp4")
+item_name = "key"
+icon = ExtResource("1_m1vsf")
+max_stack_size = 1
+metadata/_custom_type_script = "uid://dyktsf43ca14d"

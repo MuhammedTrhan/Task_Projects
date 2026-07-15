@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://bkihibj5ecy3e"]
+
+[ext_resource type="Script" uid="uid://vkxvgb7g65t3" path="res://Scripts/inventory_slot.gd" id="1_0v82l"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0v82l"]
+bg_color = Color(0.13333334, 0.17254902, 0.13333334, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[node name="InventorySlot" type="Panel" unique_id=1969230533]
+custom_minimum_size = Vector2(64, 64)
+offset_right = 64.0
+offset_bottom = 64.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_0v82l")
+script = ExtResource("1_0v82l")
+
+[node name="Icon" type="TextureRect" parent="." unique_id=181872293]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="NameLabel" type="Label" parent="." unique_id=2118982888]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = -4.0
+offset_right = 32.0
+offset_bottom = 19.0
+grow_horizontal = 2
+grow_vertical = 0
+horizontal_alignment = 1
+
+[node name="QuantityLabel" type="Label" parent="." unique_id=560447193]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -30.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+horizontal_alignment = 2
+
+[node name="Highlight" type="ColorRect" parent="." unique_id=1381731565]
+visible = false
+layout_mode = 0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 66.0
+offset_bottom = 66.0
+mouse_filter = 2
+color = Color(1, 1, 0, 0.27058825)

@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 
 @export var max_hp: float = 100.0
 @export var parry_cooldown: float = 1.0
@@ -6,6 +7,7 @@ extends CharacterBody2D
 @export var parry_speed: float = 50.0
 @export var charge_speed: float = 50.0
 @export var max_charge: float = 1.0 # Maximum seconds the dash can be charged
+@export var apple_heal_amount: float = 20.0 # Amount of HP restored by consuming an apple
 
 const MAX_SPEED = 150.0
 # How fast the player speeds up (pixels per second squared)
@@ -35,6 +37,7 @@ var current_hp: float = max_hp
 var cur_parry_cooldown: float = 0.0
 var cur_dash_cooldown: float = 0.0
 
+@onready var pickup: PlayerPickup = $FlipPivot/PickupArea
 
 func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("attack") and not is_attacking:
@@ -57,7 +60,65 @@ func _physics_process(_delta: float) -> void:
 
 	animation_manager()
 
+func _unhandled_input(event: InputEvent) -> void:
+	# --- SCROLLING ---
+	if event.is_action_pressed("scroll_up"):
+		PlayerInventory.set_active_slot(PlayerInventory.active_slot_index - 1)
+	elif event.is_action_pressed("scroll_down"):
+		PlayerInventory.set_active_slot(PlayerInventory.active_slot_index + 1)
 
+	# --- HOTKEYS ---
+	if event.is_action_pressed("slot_0"):
+		PlayerInventory.set_active_slot(0)
+	elif event.is_action_pressed("slot_1"):
+		PlayerInventory.set_active_slot(1)
+	elif event.is_action_pressed("slot_2"):
+		PlayerInventory.set_active_slot(2)
+	elif event.is_action_pressed("slot_3"):
+		PlayerInventory.set_active_slot(3)
+	elif event.is_action_pressed("slot_4"):
+		PlayerInventory.set_active_slot(4)
+	elif event.is_action_pressed("slot_5"):
+		PlayerInventory.set_active_slot(5)
+	elif event.is_action_pressed("slot_6"):
+		PlayerInventory.set_active_slot(6)
+	
+	# --- USING AND DROPPING ---
+	var current_item = PlayerInventory.get_item(PlayerInventory.active_slot_index)
+
+	if current_item != null:
+		# CONSUME (E)
+		if event.is_action_pressed("interract"):
+			if current_item.item_type == ItemData.ItemType.CONSUMABLE:
+				if current_item.item_name == "key":
+					if pickup.nearby_interactable != null:
+						# Pass the item to the chest. If it returns true, it accepted the key.
+						var success = pickup.nearby_interactable.try_open(current_item)
+
+						if success:
+							PlayerInventory.remove_item(PlayerInventory.active_slot_index, 1)
+						else:
+							print("The chest did not accept the key.")
+					else:
+						print("No chest nearby to use the key on.")
+
+				elif current_item.item_name == "apple":
+					current_hp = min(current_hp + apple_heal_amount, max_hp)
+
+					PlayerInventory.remove_item(PlayerInventory.active_slot_index, 1)
+
+					print("Ate the ", current_item.item_name, "! Current HP: ", current_hp, "/", max_hp)
+
+			else:
+				print("Cannot consume ", current_item.item_name, ". It's not a consumable item.")
+
+		# DROP (Q)
+		elif event.is_action_pressed("drop_item"):
+			print("Dropping item: ", current_item.item_name)
+			PlayerInventory.remove_item(PlayerInventory.active_slot_index, 1)
+
+			# TODO: Spawn a PickupItem scene at the player's position
+		
 func handle_movement(_delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -273,6 +334,7 @@ func take_damage(amount: float) -> void:
 		die()
 	
 func die() -> void:
+	PlayerInventory.clear_inventory() # Clear the inventory on death
 	is_dead = true
 
 

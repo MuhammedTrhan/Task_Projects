@@ -1,0 +1,113 @@
+[gd_scene format=3 uid="uid://h4ufwajsuji3"]
+
+[ext_resource type="Script" uid="uid://bl05l0his42kq" path="res://Scripts/chest.gd" id="1_cjfl1"]
+[ext_resource type="Texture2D" uid="uid://davqhfw4dslhw" path="res://Assets/DungeonAssetPack/items and trap_animation/chest/chest_1.png" id="1_lyb87"]
+[ext_resource type="Texture2D" uid="uid://c3movwsj3bp84" path="res://Assets/DungeonAssetPack/items and trap_animation/chest/chest_2.png" id="3_mrmno"]
+[ext_resource type="Texture2D" uid="uid://b2b4o7raagp84" path="res://Assets/DungeonAssetPack/items and trap_animation/chest/chest_3.png" id="4_k15qg"]
+[ext_resource type="Texture2D" uid="uid://baopdlciaux2c" path="res://Assets/DungeonAssetPack/items and trap_animation/chest/chest_4.png" id="5_1puaa"]
+[ext_resource type="Texture2D" uid="uid://bowx33dpes0v3" path="res://Assets/DungeonAssetPack/items and trap_animation/chest/chest_open_1.png" id="6_ed36l"]
+[ext_resource type="Texture2D" uid="uid://qsfkd4ftxvcw" path="res://Assets/DungeonAssetPack/items and trap_animation/chest/chest_open_2.png" id="7_un233"]
+[ext_resource type="Texture2D" uid="uid://d2s41xipvsdt7" path="res://Assets/DungeonAssetPack/items and trap_animation/chest/chest_open_3.png" id="8_a0i6c"]
+[ext_resource type="Texture2D" uid="uid://bvav0agvf7v7q" path="res://Assets/DungeonAssetPack/items and trap_animation/chest/chest_open_4.png" id="9_isy45"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cjfl1"]
+size = Vector2(16, 13)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lyb87"]
+radius = 27.0
+
+[sub_resource type="Animation" id="Animation_2jrwr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_lyb87")]
+}
+
+[sub_resource type="Animation" id="Animation_irijg"]
+resource_name = "idle"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("1_lyb87"), ExtResource("3_mrmno"), ExtResource("4_k15qg"), ExtResource("5_1puaa")]
+}
+
+[sub_resource type="Animation" id="Animation_kl3qt"]
+resource_name = "open"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("6_ed36l"), ExtResource("7_un233"), ExtResource("8_a0i6c"), ExtResource("9_isy45")]
+}
+
+[sub_resource type="Animation" id="Animation_qhimo"]
+resource_name = "open_idle"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("8_a0i6c"), ExtResource("9_isy45")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cqn7c"]
+_data = {
+&"RESET": SubResource("Animation_2jrwr"),
+&"idle": SubResource("Animation_irijg"),
+&"open": SubResource("Animation_kl3qt"),
+&"open_idle": SubResource("Animation_qhimo")
+}
+
+[node name="Chest" type="StaticBody2D" unique_id=1011807968]
+scale = Vector2(1.5, 1.5)
+collision_layer = 32
+script = ExtResource("1_cjfl1")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1397094322]
+texture = ExtResource("1_lyb87")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1714825009]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_cjfl1")
+
+[node name="InterractionArea" type="Area2D" parent="." unique_id=1164966458]
+collision_layer = 32
+collision_mask = 4096
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InterractionArea" unique_id=755439725]
+shape = SubResource("CircleShape2D_lyb87")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1592153930]
+libraries/ = SubResource("AnimationLibrary_cqn7c")
+speed_scale = 0.5
