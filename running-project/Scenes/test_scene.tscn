@@ -216,6 +216,7 @@ position = Vector2(1080, 323)
 position = Vector2(116, 501)
 required_key = ExtResource("11_4blnk")
 loot_item = ExtResource("14_040rt")
+item_scene = ExtResource("10_ibmi3")
 
 [node name="Key" parent="Pickables" unique_id=1139098551 instance=ExtResource("10_ibmi3")]
 position = Vector2(1025, 152)
