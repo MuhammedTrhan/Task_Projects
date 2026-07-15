@@ -84,6 +84,20 @@ func remove_item(slot_index: int, quantity: int = 1) -> bool:
 	inventory_updated.emit(slot_index, slot["item"], slot["quantity"])
 	return true
 
+func swap_items(index_a: int, index_b: int) -> void:
+	# Verify indices are valid
+	if index_a < 0 or index_a >= max_slots or index_b < 0 or index_b >= max_slots:
+		return
+
+	# Swap the dictionary data
+	var temp = slots[index_a]
+	slots[index_a] = slots[index_b]
+	slots[index_b] = temp
+
+	# Emit signals to force both slots to redraw their visuals
+	inventory_updated.emit(index_a, slots[index_a]["item"], slots[index_a]["quantity"])
+	inventory_updated.emit(index_b, slots[index_b]["item"], slots[index_b]["quantity"])
+
 func clear_inventory() -> void:
 	for i in range(max_slots):
 		slots[i]["item"] = null

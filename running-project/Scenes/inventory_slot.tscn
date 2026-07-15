@@ -17,6 +17,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_0v82l")
 script = ExtResource("1_0v82l")
 
 [node name="Icon" type="TextureRect" parent="." unique_id=181872293]
+custom_minimum_size = Vector2(40, 40)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -29,6 +30,7 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="NameLabel" type="Label" parent="." unique_id=2118982888]
 layout_mode = 1
