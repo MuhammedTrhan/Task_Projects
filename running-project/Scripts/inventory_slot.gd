@@ -5,6 +5,13 @@ extends Panel
 @onready var quantity_label: Label = $QuantityLabel
 @onready var highlight: ColorRect = $Highlight
 
+
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			PlayerInventory.set_active_slot(get_index())
+
+
 func update_slot(item_data: ItemData, quantity: int):
 	if item_data != null:
 		icon_rect.texture = item_data.icon

@@ -247,8 +247,8 @@ offset_bottom = 35.0
 text = "- Dash with L-Shift
 - Press 'F' for attack
 - Press 'Space' to parry
-- Use mouse scroll or number keys
-to choosing an inventory slot
+- Use mouse scroll, number keys or
+click on it to chose an inventory slot
 - Press 'E' to use 'Q' to drop item"
 
 [node name="InventoryUI" parent="." unique_id=1608905977 instance=ExtResource("10_yglu3")]
