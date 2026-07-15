@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dcpx0dv1wkio4" path="res://Assets/Knight_player/Walking_KG_2.png" id="5_fkybt"]
 [ext_resource type="Texture2D" uid="uid://2xgbkredo46g" path="res://Assets/Knight_player/Shield_Up_KG_1.png" id="6_3smsa"]
 [ext_resource type="Texture2D" uid="uid://psftf2yw4ul4" path="res://Assets/Knight_player/Shield_idle_KG.png" id="7_8erm5"]
+[ext_resource type="Script" uid="uid://dnp2x0jtwkp74" path="res://Scripts/player_pickup.gd" id="10_tx1dd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cvnsp"]
 radius = 9.0
@@ -507,7 +508,7 @@ radius = 44.02908
 
 [node name="Player" type="CharacterBody2D" unique_id=1704028917 groups=["player"]]
 scale = Vector2(1.25, 1.25)
-collision_mask = 4
+collision_mask = 36
 motion_mode = 1
 script = ExtResource("1_cvnsp")
 
@@ -546,7 +547,8 @@ disabled = true
 
 [node name="PickupArea" type="Area2D" parent="FlipPivot" unique_id=665016954]
 collision_layer = 4096
-collision_mask = 16
+collision_mask = 48
+script = ExtResource("10_tx1dd")
 
 [node name="PickupHitbox" type="CollisionShape2D" parent="FlipPivot/PickupArea" unique_id=549170512]
 position = Vector2(0, -17.6)
@@ -554,4 +556,5 @@ shape = SubResource("CircleShape2D_f1ek2")
 
 [connection signal="animation_finished" from="FlipPivot/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="area_entered" from="FlipPivot/DamageArea" to="." method="_on_damage_area_area_entered"]
-[connection signal="area_entered" from="FlipPivot/PickupArea" to="." method="_on_pickup_area_area_entered"]
+[connection signal="area_entered" from="FlipPivot/PickupArea" to="FlipPivot/PickupArea" method="_on_area_entered"]
+[connection signal="area_exited" from="FlipPivot/PickupArea" to="FlipPivot/PickupArea" method="_on_area_exited"]

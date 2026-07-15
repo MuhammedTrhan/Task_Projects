@@ -12,7 +12,9 @@
 [ext_resource type="PackedScene" uid="uid://c5nbvbk770mse" path="res://Scenes/inventory_ui.tscn" id="10_yglu3"]
 [ext_resource type="Resource" uid="uid://cbx4elsjcvra5" path="res://Assets/Items/key.tres" id="11_4blnk"]
 [ext_resource type="Resource" uid="uid://4dtk2xa2711g" path="res://Assets/Items/coal.tres" id="12_4blnk"]
+[ext_resource type="PackedScene" uid="uid://h4ufwajsuji3" path="res://Scenes/chest.tscn" id="13_4qg1e"]
 [ext_resource type="Resource" uid="uid://rt0iu6sbfn1n" path="res://Assets/Items/apple.tres" id="13_tnimv"]
+[ext_resource type="Resource" uid="uid://sxiaplwh8aoa" path="res://Assets/Items/diamond.tres" id="14_040rt"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_x033f"]
 vertices = PackedVector2Array(464.10156, 63.898438, 464.10156, 208.10156, 463.89844, 159.89844, 463.89844, 112.10156, 735.89844, 223.89844, 992.10156, 191.89844, 1039.8984, 191.89844, 927.89844, 368.10156, 880.10156, 368.10156, 1088.1016, 175.89844, 1088.1016, 576.10156, 927.89844, 415.89844, 880.10156, 415.89844, 383.89844, 576.10156, 383.89844, 544.10156, 735.89844, 176.10156, 992.10156, 144.10156, 367.89844, 63.898438, 416.10156, 112.10156, 399.89844, 208.10156, 367.89844, 127.89844, 416.10156, 159.89844, 400.10156, 208.10156, 400.10156, 303.89844, 416.10156, 303.89844, 416.10156, 319.89844, 351.89844, 495.89844, 463.89844, 319.89844, 463.89844, 303.89844, 623.89844, 303.89844, 623.89844, 95.89844, 992.10156, 95.89844, 992.10156, 111.89844, 1008.10156, 111.89844, 1008.10156, 143.89844, 1024.1016, 143.89844, 1024.1016, 144.10156, 1039.8984, 159.89844, 1040.1016, 159.89844, 1040.1016, 175.89844, 351.89844, 544.10156, 351.89844, 496.10156, 272.10156, 496.10156, 272.10156, 576.10156, 111.89844, 576.10156, 111.89844, 431.89844, 240.10156, 463.89844, 240.10156, 431.89844, 272.10156, 463.89844, 272.10156, 495.89844, 351.89844, 303.89844, 399.89844, 303.89844, 351.89844, 208.10156, 351.89844, 128.10156, 288.10156, 128.10156, 288.10156, 320.10156, 63.898438, 320.10156, 63.898438, 63.898438, 288.10156, 63.898438, 288.10156, 127.89844, 688.10156, 176.10156, 688.10156, 223.89844)
@@ -208,11 +210,12 @@ position = Vector2(465, 162)
 [node name="Coin2" parent="Coins" unique_id=536201473 instance=ExtResource("2_ak5v8")]
 position = Vector2(1080, 323)
 
-[node name="Player" parent="." unique_id=1704028917 instance=ExtResource("5_ak5v8")]
-position = Vector2(406, 152)
-scale = Vector2(0.5, 0.5)
-
 [node name="Pickables" type="Node" parent="." unique_id=2039439448]
+
+[node name="Chest" parent="Pickables" unique_id=1011807968 instance=ExtResource("13_4qg1e")]
+position = Vector2(116, 501)
+required_key = ExtResource("11_4blnk")
+loot_item = ExtResource("14_040rt")
 
 [node name="Key" parent="Pickables" unique_id=1139098551 instance=ExtResource("10_ibmi3")]
 position = Vector2(1025, 152)
@@ -230,14 +233,22 @@ item_resource = ExtResource("12_4blnk")
 position = Vector2(115, 570)
 item_resource = ExtResource("13_tnimv")
 
+[node name="Player" parent="." unique_id=1704028917 instance=ExtResource("5_ak5v8")]
+z_index = 1
+position = Vector2(406, 152)
+scale = Vector2(0.5, 0.5)
+
 [node name="ControlsInfo" type="Label" parent="." unique_id=2081702341]
 offset_left = 12.0
 offset_top = 12.0
 offset_right = 143.0
 offset_bottom = 35.0
-text = "Dash with L-Shift
-Press 'F' for attack
-Press 'Space' to parry"
+text = "- Dash with L-Shift
+- Press 'F' for attack
+- Press 'Space' to parry
+- Use mouse scroll or number keys
+to choosing an inventory slot
+- Press 'E' to use 'Q' to drop item"
 
 [node name="InventoryUI" parent="." unique_id=1608905977 instance=ExtResource("10_yglu3")]
 offset_left = 574.0

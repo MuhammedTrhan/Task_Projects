@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 
 @export var max_hp: float = 100.0
 @export var parry_cooldown: float = 1.0
@@ -6,6 +7,7 @@ extends CharacterBody2D
 @export var parry_speed: float = 50.0
 @export var charge_speed: float = 50.0
 @export var max_charge: float = 1.0 # Maximum seconds the dash can be charged
+@export var apple_heal_amount: float = 20.0 # Amount of HP restored by consuming an apple
 
 const MAX_SPEED = 150.0
 # How fast the player speeds up (pixels per second squared)
@@ -35,6 +37,7 @@ var current_hp: float = max_hp
 var cur_parry_cooldown: float = 0.0
 var cur_dash_cooldown: float = 0.0
 
+@onready var pickup: PlayerPickup = $FlipPivot/PickupArea
 
 func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("attack") and not is_attacking:
@@ -87,11 +90,25 @@ func _unhandled_input(event: InputEvent) -> void:
 		# CONSUME (E)
 		if event.is_action_pressed("interract"):
 			if current_item.item_type == ItemData.ItemType.CONSUMABLE:
-				print("Ate the ", current_item.item_name, "! Delicious!")
-				
-				# Add healing logic here
+				if current_item.item_name == "key":
+					if pickup.nearby_interactable != null:
+						# Pass the item to the chest. If it returns true, it accepted the key.
+						var success = pickup.nearby_interactable.try_open(current_item)
 
-				PlayerInventory.remove_item(PlayerInventory.active_slot_index, 1)
+						if success:
+							PlayerInventory.remove_item(PlayerInventory.active_slot_index, 1)
+						else:
+							print("The chest did not accept the key.")
+					else:
+						print("No chest nearby to use the key on.")
+
+				elif current_item.item_name == "apple":
+					current_hp = min(current_hp + apple_heal_amount, max_hp)
+
+					PlayerInventory.remove_item(PlayerInventory.active_slot_index, 1)
+
+					print("Ate the ", current_item.item_name, "! Current HP: ", current_hp, "/", max_hp)
+
 			else:
 				print("Cannot consume ", current_item.item_name, ". It's not a consumable item.")
 
@@ -100,7 +117,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			print("Dropping item: ", current_item.item_name)
 			PlayerInventory.remove_item(PlayerInventory.active_slot_index, 1)
 
-			# Spawn a PickupItem scene at the player's position
+			# TODO: Spawn a PickupItem scene at the player's position
 		
 func handle_movement(_delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
@@ -325,16 +342,3 @@ func _on_damage_area_area_entered(area: Area2D) -> void:
 	# 3. Verify the parent actually has the method, then apply damage
 	if area.has_method("take_damage"):
 		area.take_damage(10.0)
-
-
-func _on_pickup_area_area_entered(area: Area2D) -> void:
-	# Check if the area we collided with is actually an item
-	if area is PickupItem:
-		# Try to add it to the inventory backend
-		var was_added = PlayerInventory.add_item(area.item_resource, area.quantity)
-
-		# If the inventory had space and successfully added it, delete the physical item
-		if was_added:
-			area.queue_free()
-
-	pass # Replace with function body.
