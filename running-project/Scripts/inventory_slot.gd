@@ -21,13 +21,14 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 	# Create a visual preview of the item being dragged
 	var drag_preview = TextureRect.new()
 	drag_preview.texture = current_item.icon
-	drag_preview.custom_minimum_size = Vector2(40, 40)
 	drag_preview.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	drag_preview.size = Vector2(40, 40)
 
 	# Wrap it in a Control to center it on the mouse pointer
 	var drag_control = Control.new()
 	drag_control.add_child(drag_preview)
-	drag_control.position = - drag_preview.custom_minimum_size / 2
+	# APPLY THE OFFSET TO THE CHILD (drag_preview), NOT THE CONTROL
+	drag_preview.position = - drag_preview.size / 2
 
 	set_drag_preview(drag_control)
 
